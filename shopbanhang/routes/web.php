@@ -51,3 +51,16 @@ Route::get('/active-product/{product_id}', 'App\Http\Controllers\ProductControll
 Route::get('/unactive-product/{product_id}', 'App\Http\Controllers\ProductController@unactive_product');
 Route::post('/save-product', 'App\Http\Controllers\ProductController@save_product');
 Route::post('/update-product/{product_id}', 'App\Http\Controllers\ProductController@update_product');
+//Cart
+Route::post('/save-cart', 'App\Http\Controllers\CartController@save_cart');
+Route::post('/update-cart-quantity', 'App\Http\Controllers\CartController@update_cart_quantity');
+Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');
+Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');
+Route::get('/delete-to-cart/{rowId}', 'App\Http\Controllers\CartController@delete_cart');
+//login-checkout
+Route::get('/login-checkout', 'App\Http\Controllers\CheckoutController@login_checkout');
+Route::get('/checkout', 'App\Http\Controllers\CheckoutController@checkout');
+Route::get('/payment', 'App\Http\Controllers\CheckoutController@payment');
+Route::post('/add-customer', 'App\Http\Controllers\CheckoutController@add_customer');
+Route::post('/login-customer', 'App\Http\Controllers\CheckoutController@login_customer');
+Route::post('/save-checkout-customer', 'App\Http\Controllers\CheckoutController@save_checkout_customer');

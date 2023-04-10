@@ -123,6 +123,7 @@
       <path value="$PROJECT_DIR$/shopbanhang/vendor/symfony/polyfill-uuid" />
       <path value="$PROJECT_DIR$/shopbanhang/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/shopbanhang/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/shopbanhang/vendor/bumbummen99/shoppingcart" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

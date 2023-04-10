@@ -86,11 +86,25 @@
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-                            <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
+                            <li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+                            <?php
+                                $customer_id = \Illuminate\Support\Facades\Session::get('customer_id');
+                                if($customer_id=NULL)
+                                {
+                                    ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                            <?php
+                                }else{
+                                    ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+
+                            <?php
+
+                                }
+                                ?>
                         </ul>
                     </div>
                 </div>

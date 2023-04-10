@@ -119,6 +119,7 @@
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/symfony/polyfill-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/ramsey/collection" />
+      <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/bumbummen99/shoppingcart" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

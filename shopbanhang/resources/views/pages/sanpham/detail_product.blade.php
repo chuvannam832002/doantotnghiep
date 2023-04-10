@@ -45,11 +45,14 @@
             <h2>{{$pro->product_name}}</h2>
             <p>Mã ID: {{$pro->product_id}}</p>
             <img src="http://localhost:8080/shopbanhang/public/frontend/images/rating.png" alt="" />
+            <form method="post" action="http://localhost:8080/shopbanhang/save-cart">
+                {{csrf_field()}}
             <span>
 									<span>{{number_format($pro->product_price).'VNĐ'}}</span>
 									<label>Số lượng:</label>
-									<input type="number" min="1" value="1" />
-									<button type="button" class="btn btn-fefault cart">
+									<input name="qty" type="number" min="1" value="1" />
+									<input name="product_hidden"  type="hidden" min="1" value="{{$pro->product_id}}" />
+									<button type="submit" class="btn btn-fefault cart">
 										<i class="fa fa-shopping-cart"></i>
 										Thêm giỏ hàng
 									</button>
@@ -58,6 +61,7 @@
             <p><b>Điều kiện:</b> Mới 100%</p>
             <p><b>Thương hiệu:</b>{{$pro->brand_name}}</p>
             <p><b>Danh mục:</b>{{$pro->category_name}}</p>
+            </form>
             <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/share.png" class="share img-responsive"  alt="" /></a>
         </div><!--/product-information-->
     </div>

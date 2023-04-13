@@ -88,18 +88,35 @@
                         <ul class="nav navbar-nav">
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
                             <li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
+                            <?php
+                            $customer_id = \Illuminate\Support\Facades\Session::get('customer_id');
+                            $shipping_id = \Illuminate\Support\Facades\Session::get('shipping_id');
+                            if($customer_id!=NULL&& $shipping_id==NULL)
+                            {
+                                ?>
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                            <?php
+                            }elseif($customer_id!=NULL&&$shipping_id!=NULL)
+                            {
+                                ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                            <?php
+                            }else{
+                                ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                            <?php
+                            }
+                            ?>
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
                             <?php
-                                $customer_id = \Illuminate\Support\Facades\Session::get('customer_id');
-                                if($customer_id=NULL)
-                                {
-                                    ?>
-                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                            if($customer_id!=NULL)
+                            {
+                            ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
                             <?php
                                 }else{
                                     ?>
-                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
 
                             <?php
 
@@ -115,7 +132,7 @@
     <div class="header-bottom"><!--header-bottom-->
         <div class="container">
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
@@ -147,10 +164,14 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
+                    <form method="post" action="{{\Illuminate\Support\Facades\URL::to('/tim-kiem')}}">
+                        {{csrf_field()}}
                     <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
+                        <input type="text"  name="keywords_submit" placeholder="Search"/>
+                        <input type="submit" style="margin-top: 0;color: #666" name="search_items" class="btn btn-primary btn-sm" value="Tìm kiếm">
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

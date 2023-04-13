@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 //frontend
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/trang-chu', 'App\Http\Controllers\HomeController@index');
+Route::post('/tim-kiem', 'App\Http\Controllers\HomeController@search');
 //Danh muc san pham trang chu
 Route::get('/danhmucsanpham/{category_id}', 'App\Http\Controllers\CategoryProduct@show_category_home');
 Route::get('/thuonghieusanpham/{brand_id}', 'App\Http\Controllers\BrandProduct@show_brand_home');
@@ -59,8 +60,14 @@ Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');
 Route::get('/delete-to-cart/{rowId}', 'App\Http\Controllers\CartController@delete_cart');
 //login-checkout
 Route::get('/login-checkout', 'App\Http\Controllers\CheckoutController@login_checkout');
+Route::get('/logout-checkout', 'App\Http\Controllers\CheckoutController@logout_checkout');
 Route::get('/checkout', 'App\Http\Controllers\CheckoutController@checkout');
 Route::get('/payment', 'App\Http\Controllers\CheckoutController@payment');
 Route::post('/add-customer', 'App\Http\Controllers\CheckoutController@add_customer');
+Route::post('/order-place', 'App\Http\Controllers\CheckoutController@order_place');
 Route::post('/login-customer', 'App\Http\Controllers\CheckoutController@login_customer');
 Route::post('/save-checkout-customer', 'App\Http\Controllers\CheckoutController@save_checkout_customer');
+//order
+Route::get('/manage-order', 'App\Http\Controllers\CheckoutController@manage_order');
+Route::get('/view-order/{orderId}', 'App\Http\Controllers\CheckoutController@view_order');
+Route::get('/delete-order/{orderId}', 'App\Http\Controllers\CheckoutController@delete_order');

@@ -228,7 +228,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
                 <li>
-                    <input type="text" class="form-control search" placeholder=" Search">
+                    <input type="text"  name="keywords_submit" class="form-control search" placeholder=" Tìm kiếm">
                 </li>
                 <!-- user login dropdown start-->
                 <li class="dropdown">
@@ -270,7 +270,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Tổng quan</span>
                         </a>
                     </li>
-
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Đơn hàng</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="http://localhost:8080/shopbanhang/manage-order">Quản lý đơn hàng</a></li>
+                        </ul>
+                    </li>
                     <li class="sub-menu">
                         <a href="javascript:;">
                             <i class="fa fa-book"></i>

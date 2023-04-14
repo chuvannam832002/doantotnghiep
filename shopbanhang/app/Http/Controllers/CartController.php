@@ -47,4 +47,43 @@ class CartController extends Controller
         Cart::update($rowId,$quantity);
         return Redirect::to('http://localhost:8080/shopbanhang/show-cart');
     }
+    public function add_cart_ajax(Request $request){
+        $data = $request->all();
+        $session_id = substr(md5(microtime()),rand(0,26),5);
+        $cart = Session::get('cart');
+        if($cart==true)
+        {
+            $is_avaible = 0;
+            foreach ($cart as $key =>$val)
+            {
+                if($val['product_id']==$data['product_id']){
+                    $is_avaible++;
+                }
+            }
+            if($is_avaible==0)
+            {
+                $cart[] = array(
+                    'session_id'=>$session_id,
+                    'product_name'=>$data['cart_product_name'],
+                    'product_id'=>$data['cart_product_id'],
+                    'cart_product_image'=>$data['cart_product_image'],
+                    'product_price'=>$data['cart_product_price'],
+
+                );
+                Session::put('cart',$cart);
+            }
+        }else{
+            $cart[] = array(
+                'session_id'=>$session_id,
+                'product_name'=>$data['cart_product_name'],
+                'product_id'=>$data['cart_product_id'],
+                'cart_product_image'=>$data['cart_product_image'],
+                'product_price'=>$data['cart_product_price'],
+
+            );
+        }
+        Session::put('cart',$cart);
+        Session::save();
+        print_r($data);
+    }
 }

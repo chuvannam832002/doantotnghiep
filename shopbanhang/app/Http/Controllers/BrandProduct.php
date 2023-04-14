@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -23,16 +23,24 @@ class BrandProduct extends Controller
         return view('admin.add_brand_product');
     }
     public function all_brand_product(){
-        $all_brand_product = DB::table('tbl_brand_product')->get();
+//        $all_brand_product = DB::table('tbl_brand_product')->get();
+        $all_brand_product = Brand::orderBy('brand_id','DESC')->get();
         $manage_brand_product =  view('admin.all_brand_product')->with('all_brand_product',$all_brand_product);
         return view('admin_layout')->with('admin.all_brand_product',$manage_brand_product);
     }
     public function save_brand_product(Request $request){
-        $data = array();
-        $data['brand_name'] = $request->brand_product_name;
-        $data['brand_des'] = $request->brand_product_desc;
-        $data['brand_status'] = $request->brand_product_status;
-        DB::table('tbl_brand_product')->insert($data);
+        $this->AuthLogin();
+        $data = $request->all();
+//        $data = array();
+        $brand = new Brand();
+        $brand->brand_name =$data['brand_product_name'];
+        $brand->brand_des =$data['brand_product_desc'];
+        $brand->brand_status =$data['brand_product_status'];
+        $brand->save();
+        //        $data['brand_name'] = $request->brand_product_name;
+//        $data['brand_des'] = $request->brand_product_desc;
+//        $data['brand_status'] = $request->brand_product_status;
+//        DB::table('tbl_brand_product')->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
         return Redirect::to('/all-brand-product');
     }

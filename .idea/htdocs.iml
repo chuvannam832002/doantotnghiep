@@ -120,6 +120,8 @@
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/ramsey/collection" />
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/bumbummen99/shoppingcart" />
+      <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/league/oauth1-client" />
+      <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/laravel/socialite" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -30,5 +30,9 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'facebook' => [
+        'client_id'=>'147146644746605',
+        'client_secret'=>'c57498317302cd77a50c05067aba3d7f',
+        'redirect'=>'http://localhost:8080/shopbanhang/admin/callback'
+    ]
 ];

@@ -124,6 +124,8 @@
       <path value="$PROJECT_DIR$/shopbanhang/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/shopbanhang/vendor/ramsey/collection" />
       <path value="$PROJECT_DIR$/shopbanhang/vendor/bumbummen99/shoppingcart" />
+      <path value="$PROJECT_DIR$/shopbanhang/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/shopbanhang/vendor/laravel/socialite" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

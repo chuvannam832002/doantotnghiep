@@ -34,6 +34,9 @@ Route::get('/active-category-product/{category_product_id}', 'App\Http\Controlle
 Route::get('/unactive-category-product/{category_product_id}', 'App\Http\Controllers\CategoryProduct@unactive_category_product');
 Route::post('/save-category-product', 'App\Http\Controllers\CategoryProduct@save_category_product');
 Route::post('/update-category-product/{category_product_id}', 'App\Http\Controllers\CategoryProduct@update_category_product');
+//Login facebook
+Route::get('/login-facebook','App\Http\Controllers\LoginController@login_facebook');
+Route::get('/admin/callback','App\Http\Controllers\LoginController@callback_facebook');
 //BrandProduct
 Route::get('/add-brand-product', 'App\Http\Controllers\BrandProduct@add_brand_product');
 Route::get('/edit-brand-product/{brand_product_id}', 'App\Http\Controllers\BrandProduct@edit_brand_product');
@@ -54,6 +57,7 @@ Route::post('/save-product', 'App\Http\Controllers\ProductController@save_produc
 Route::post('/update-product/{product_id}', 'App\Http\Controllers\ProductController@update_product');
 //Cart
 Route::post('/save-cart', 'App\Http\Controllers\CartController@save_cart');
+Route::post('/add-cart-ajax', 'App\Http\Controllers\CartController@add_cart_ajax');
 Route::post('/update-cart-quantity', 'App\Http\Controllers\CartController@update_cart_quantity');
 Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');
 Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');

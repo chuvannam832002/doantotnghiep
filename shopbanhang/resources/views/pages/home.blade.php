@@ -11,7 +11,7 @@
                     <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" width="200" height="260" alt="" />
                     <h2>{{number_format($pro->product_price).'VNĐ'}}</h2>
                     <p>{{$pro->product_name}}</p>
-                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                    <a href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
                 </div>
 {{--                <div class="product-overlay">--}}
 {{--                    <div class="overlay-content">--}}

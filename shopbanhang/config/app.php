@@ -195,6 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class, //cho provider
     ],
 
     /*
@@ -211,6 +212,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'Socialte'=>Laravel\Socialite\Facades\Socialite::class,
     ])->toArray(),
 
 ];

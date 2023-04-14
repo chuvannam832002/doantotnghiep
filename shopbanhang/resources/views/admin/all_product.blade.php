@@ -72,21 +72,21 @@
                                     if($cate_pro->product_status==0)
                                     {
                                         ?>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/active-product/').$cate_pro->product_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/active-product/').'/'.$cate_pro->product_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
                                 <?php
                                     }
                                     else{
                                         ?>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/unactive-product/').$cate_pro->product_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/unactive-product/').'/'.$cate_pro->product_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
                                 <?php
                                     }
 ?>
                             </span></td>
                         <td>
-                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-product/').$cate_pro->product_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-product/').'/'.$cate_pro->product_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                 <i class="fa fa-pencil-square-o text-success text-active"></i>
                             </a>
-                            <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-product/').$cate_pro->product_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                            <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-product/').'/'.$cate_pro->product_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                 <i class="fa fa-times text-danger text"></i></a>
                         </td>
                     </tr>

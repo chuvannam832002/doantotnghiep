@@ -66,12 +66,18 @@ class BrandProduct extends Controller
     }
     //End funtion admin page
     public function show_brand_home($brand_id){
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         $brand_by_id = DB::table('tbl_product')->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
             ->where('tbl_product.brand_id',$brand_id)->get();
         $cate_name = DB::table('tbl_brand_product')->where('tbl_brand_product.brand_id',$brand_id)->limit(1)->get();
         return view('pages.brand.show_brand')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('category_by_id',$brand_by_id)
-            ->with('cate_name',$cate_name);
+            ->with('cate_name',$cate_name)
+            ->with('cate_name',$cate_name)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+
     }
 }

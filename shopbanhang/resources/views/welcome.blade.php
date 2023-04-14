@@ -3,9 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="{{$meta_desc}}">
+    <meta name="keywords" content="{{$meta_keywords}}"/>
+    <meta name="robots" content="INDEX,FOLLOW"/>
+    <link  rel="canonical" href="{{$url_canonical}}" />
     <meta name="author" content="">
-    <title>Home | E-Shopper</title>
+    <link  rel="icon" type="image/x-icon" href="" />
+{{--    <meta property="og:image" content="{{$image_og}}" />--}}
+    <meta property="og:site_name" content="thiatv.com" />
+    <meta property="og:description" content="{{$meta_desc}}" />
+    <meta property="og:title" content="{{$meta_title}}" />
+    <meta property="og:url" content="{{$url_canonical}}" />
+    <meta property="og:type" content="website" />
+
+    <title>{{$meta_title}}</title>
     <link href="{{asset('public/frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/prettyPhoto.css')}}" rel="stylesheet">
@@ -256,7 +267,7 @@
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordian">
                                         <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                      <a href="{{\Illuminate\Support\Facades\URL::to('/danhmucsanpham/').$cate->category_id}}">
+                                      <a href="{{\Illuminate\Support\Facades\URL::to('/danhmucsanpham/').'/'.$cate->slug_category_product}}">
                                           {{$cate->category_name}}
                                       </a>
                                     </a>
@@ -283,7 +294,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 @foreach($brand_product as $key =>$cate)
                                 <li><a href="#"> <span class="pull-right">(50)</span>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/thuonghieusanpham/').$cate->brand_id}}">
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/thuonghieusanpham/').'/'.$cate->brand_id}}">
                                         {{$cate->brand_name}}
                                         </a>
                                     </a></li>
@@ -481,5 +492,7 @@
 <script src="{{asset('public/frontend/js/price-range.js')}}"></script>
 <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
 <script src="{{asset('public/frontend/js/main.js')}}"></script>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v16.0" nonce="F4eNZT3Y"></script>
 </body>
 </html>

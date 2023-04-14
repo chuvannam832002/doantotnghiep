@@ -30,7 +30,7 @@
                     @foreach($content as $v_content)
                         <tr>
                             <td class="cart_product">
-                                <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').$v_content->options->image}}"
+                                <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').'/'.$v_content->options->image}}"
                                                 width="100" height="100" alt=""></a>
                             </td>
                             <td class="cart_description">
@@ -58,7 +58,7 @@
                                         ?>></p>
                             </td>
                             <td class="cart_delete">
-                                <a class="cart_quantity_delete" href="{{\Illuminate\Support\Facades\URL::to('/delete-to-cart/').$v_content->rowId}}"><i class="fa fa-times"></i></a>
+                                <a class="cart_quantity_delete" href="{{\Illuminate\Support\Facades\URL::to('/delete-to-cart/').'/'.$v_content->rowId}}"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                     @endforeach

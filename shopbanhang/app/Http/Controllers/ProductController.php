@@ -20,11 +20,16 @@ class ProductController extends Controller
     }
     public function add_product(){
         $this->AuthLogin();
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
 //        $cate_product = DB::table('tbl_product')->orderBy('category_id','desc')->get();
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
 //        $product = DB::table('tbl_product')->orderBy('brand_id','desc')->get();
-        return view('admin.add_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
+        return view('admin.add_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+            ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
     }
     public function all_product(){
         $all_product = DB::table('tbl_product')->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
@@ -119,12 +124,16 @@ class ProductController extends Controller
         {
             $category_id = $values->category_id;
         }
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
         $related_product = DB::table('tbl_product')->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
             ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')->where('tbl_product.category_id',$category_id)
             ->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
         return view('pages.sanpham.detail_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
-            ->with('product_details',$detail_product)->with('relate',$related_product);
+            ->with('product_details',$detail_product)->with('relate',$related_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
     }
 
 }

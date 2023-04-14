@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Session;
 class CheckoutController extends Controller
 {
     public function login_checkout(){
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
-        return view('pages.checkout.login_checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
+        return view('pages.checkout.login_checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
     }
     public function add_customer(Request $request){
         $data = array();
@@ -30,9 +34,14 @@ class CheckoutController extends Controller
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         $check = Session::get('customer_id');
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
         if($check)
         {
-            return view('pages.checkout.checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
+            return view('pages.checkout.checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+                ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
         }
         else{
             return Redirect('/login-checkout');
@@ -52,9 +61,13 @@ class CheckoutController extends Controller
         return Redirect('/payment');
     }
     public function payment(){
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
-        return view('pages.checkout.payment')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
+        return view('pages.checkout.payment')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
     }
     public function logout_checkout(){
         Session::flush();
@@ -107,10 +120,15 @@ class CheckoutController extends Controller
             echo '1';
         }elseif ($data['payment_status']==2)
         {
+            $meta_desc = '';
+            $meta_keywords = '';
+            $meta_title = '';
+            $url_canonical = '';
             $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
             $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
             Cart::destroy();
-            return view('pages.checkout.handcash')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
+            return view('pages.checkout.handcash')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+                ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
         }else{
             echo '3';
         }

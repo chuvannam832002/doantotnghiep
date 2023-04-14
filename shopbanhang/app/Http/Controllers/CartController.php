@@ -27,9 +27,15 @@ class CartController extends Controller
         return Redirect::to('http://localhost:8080/shopbanhang/show-cart');
     }
     public function show_cart(){
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';
+        $url_canonical = '';
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
-        return view('pages.cart.show_cart')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
+        return view('pages.cart.show_cart')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+      ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+
     }
     public function  delete_cart($rowId){
         Cart::update($rowId,0);

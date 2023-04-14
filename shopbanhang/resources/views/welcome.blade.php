@@ -143,7 +143,7 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="http://localhost:8080/shopbanhang/trang-chu" class="active">Trang chủ</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
                             <li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html">Products</a></li>
@@ -256,7 +256,7 @@
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordian">
                                         <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                      <a href="{{'http://localhost:8080/shopbanhang/danhmucsanpham/'.$cate->category_id}}">
+                                      <a href="{{\Illuminate\Support\Facades\URL::to('/danhmucsanpham/').$cate->category_id}}">
                                           {{$cate->category_name}}
                                       </a>
                                     </a>
@@ -283,7 +283,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 @foreach($brand_product as $key =>$cate)
                                 <li><a href="#"> <span class="pull-right">(50)</span>
-                                        <a href="{{'http://localhost:8080/shopbanhang/thuonghieusanpham/'.$cate->brand_id}}">
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/thuonghieusanpham/').$cate->brand_id}}">
                                         {{$cate->brand_name}}
                                         </a>
                                     </a></li>

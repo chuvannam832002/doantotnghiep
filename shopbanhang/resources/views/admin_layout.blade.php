@@ -248,7 +248,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <ul class="dropdown-menu extended logout">
                         <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
                         <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                        <li><a href="http://localhost:8080/shopbanhang/logout"><i class="fa fa-key"></i> Log Out</a></li>
+                        <li><a href="{{\Illuminate\Support\Facades\URL::to('/logout')}}"><i class="fa fa-key"></i> Log Out</a></li>
                     </ul>
                 </li>
                 <!-- user login dropdown end -->
@@ -276,7 +276,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Đơn hàng</span>
                         </a>
                         <ul class="sub">
-                            <li><a href="http://localhost:8080/shopbanhang/manage-order">Quản lý đơn hàng</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/manage-order')}}">Quản lý đơn hàng</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -285,8 +285,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Danh mục sản phẩm</span>
                         </a>
                         <ul class="sub">
-                            <li><a href="http://localhost:8080/shopbanhang/add-category-product">Thêm danh mục</a></li>
-                            <li><a href="http://localhost:8080/shopbanhang/all-category-product">Liệt kê danh mục</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-category-product')}}">Thêm danh mục</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/all-category-product')}}">Liệt kê danh mục</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -295,8 +295,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Thương hiệu sản phẩm</span>
                         </a>
                         <ul class="sub">
-                            <li><a href="http://localhost:8080/shopbanhang/add-brand-product">Thêm thương hiệu sản phẩm</a></li>
-                            <li><a href="http://localhost:8080/shopbanhang/all-brand-product">Liệt kê thương hiệu sản phẩm</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-brand-product')}}">Thêm thương hiệu sản phẩm</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/all-brand-product')}}">Liệt kê thương hiệu sản phẩm</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -305,8 +305,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Sản phẩm</span>
                         </a>
                         <ul class="sub">
-                            <li><a href="http://localhost:8080/shopbanhang/add-product">Thêm  sản phẩm</a></li>
-                            <li><a href="http://localhost:8080/shopbanhang/all-product">Liệt kê sản phẩm</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-product')}}">Thêm  sản phẩm</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/all-product')}}">Liệt kê sản phẩm</a></li>
                         </ul>
                     </li>
                 </ul>            </div>

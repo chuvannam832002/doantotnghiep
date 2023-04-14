@@ -30,7 +30,7 @@
                     @foreach($content as $v_content)
                         <tr>
                             <td class="cart_product">
-                                <a href=""><img src="{{'http://localhost:8080/shopbanhang/public/upload/product/'.$v_content->options->image}}"
+                                <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').$v_content->options->image}}"
                                                 width="100" height="100" alt=""></a>
                             </td>
                             <td class="cart_description">
@@ -42,7 +42,7 @@
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
-                                    <form action="http://localhost:8080/shopbanhang/update-cart-quantity" method="post">
+                                    <form action="{{\Illuminate\Support\Facades\URL::to('/update-cart-quantity')}}" method="post">
                                         {{csrf_field()}}
                                         <input class="cart_quantity_input" type="number" name="cart_quantity" value="{{$v_content->qty}}" autocomplete="off" size="2">
                                         <input type="hidden" value="{{$v_content->rowId}}" name="rowId_cart" class="form-control">
@@ -58,7 +58,7 @@
                                         ?>></p>
                             </td>
                             <td class="cart_delete">
-                                <a class="cart_quantity_delete" href="{{'http://localhost:8080/shopbanhang/delete-to-cart/'.$v_content->rowId}}"><i class="fa fa-times"></i></a>
+                                <a class="cart_quantity_delete" href="{{\Illuminate\Support\Facades\URL::to('/delete-to-cart/').$v_content->rowId}}"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                     @endforeach

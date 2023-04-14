@@ -43,7 +43,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 \Illuminate\Support\Facades\Session::put('message',null);
             }
             ?>
-        <form action="http://localhost:8080/shopbanhang/admin-dashboard" method="post">
+        <form action="{{\Illuminate\Support\Facades\URL::to('/admin-dashboard')}}" method="post">
             {{csrf_field()}}
             <input type="email" class="ggg" name="admin_email" placeholder="Email" required="">
             <input type="password" class="ggg" name="admin_password" placeholder="Password" required="">

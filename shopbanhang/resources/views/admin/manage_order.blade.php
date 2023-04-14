@@ -64,10 +64,10 @@
                             <td>{{$cate_pro->order_total}}</td>
                             <td>{{$cate_pro->order_status}}</td>
                             <td>
-                                <a href="{{'http://localhost:8080/shopbanhang/view-order/'.$cate_pro->order_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                                <a href="{{\Illuminate\Support\Facades\URL::to('/view-order/').$cate_pro->order_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                     <i class="fa fa-pencil-square-o text-success text-active"></i>
                                 </a>
-                                <a onclick="return confirm('Are you sure to delete this row?')" href="{{'http://localhost:8080/shopbanhang/delete-order/'.$cate_pro->order_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                                <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-order/').$cate_pro->order_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                     <i class="fa fa-times text-danger text"></i></a>
                             </td>
                         </tr>

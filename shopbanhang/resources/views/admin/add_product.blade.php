@@ -19,7 +19,7 @@
         ?>
         <div class="panel-body">
             <div class="position-center">
-                <form role="form" action="http://localhost:8080/shopbanhang/save-product" method="post" enctype="multipart/form-data">
+                <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/save-product')}}" method="post" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="exampleInputEmail1">Tên sản phẩm</label>

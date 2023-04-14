@@ -20,7 +20,7 @@
             <div class="panel-body">
                 @foreach($edit_brand_product as $key =>$edit_value)
                 <div class="position-center">
-                    <form role="form" action="{{'http://localhost:8080/shopbanhang/update-brand-product/'.$edit_value->brand_id}}" method="post">
+                    <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/update-brand-product/').$edit_value->brand_id}}" method="post">
                         {{csrf_field()}}
                         <div class="form-group">
                             <label for="exampleInputEmail1">thương hiệu</label>

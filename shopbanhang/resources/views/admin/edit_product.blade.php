@@ -20,7 +20,7 @@
         <div class="panel-body">
             <div class="position-center">
                 @foreach($edit_product as $key=>$pro)
-                <form role="form" action="{{'http://localhost:8080/shopbanhang/update-product/'.$pro->product_id}}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/update-product/').$pro->product_id}}" method="post" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="exampleInputEmail1">Tên sản phẩm</label>
@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
                         <input type="file"  name="product_image" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
-                        <img src="{{'http://localhost:8080/shopbanhang/public/upload/product/'.$pro->product_image}}" height="150" width="150">
+                        <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').$pro->product_image}}" height="150" width="150">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Mô tả sản phẩm</label>

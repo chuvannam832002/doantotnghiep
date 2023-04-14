@@ -4,7 +4,7 @@
 <div class="product-details"><!--product-details-->
     <div class="col-sm-5">
         <div class="view-product">
-            <img src="{{'http://localhost:8080/shopbanhang/public/upload/product/'.$pro->product_image}}" alt="" />
+            <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').$pro->product_image}}" alt="" />
             <h3>ZOOM</h3>
         </div>
         <div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -12,19 +12,19 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
                 <div class="item active">
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar1.jpg" alt=""></a>
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar2.jpg" alt=""></a>
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar3.jpg" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar1.jpg')}}" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar2.jpg')}}" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar3.jpg')}}" alt=""></a>
                 </div>
                 <div class="item">
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar1.jpg" alt=""></a>
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar2.jpg" alt=""></a>
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar3.jpg" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar1.jpg')}}" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar2.jpg')}}" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar3.jpg')}}" alt=""></a>
                 </div>
                 <div class="item">
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar1.jpg" alt=""></a>
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar2.jpg" alt=""></a>
-                    <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/similar3.jpg" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar1.jpg')}}" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar2.jpg')}}" alt=""></a>
+                    <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/similar3.jpg')}}" alt=""></a>
                 </div>
 
             </div>
@@ -41,11 +41,11 @@
     </div>
     <div class="col-sm-7">
         <div class="product-information"><!--/product-information-->
-            <img src="http://localhost:8080/shopbanhang/public/frontend/images/new.jpg" class="newarrival" alt="" />
+            <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/new.jpg')}}" class="newarrival" alt="" />
             <h2>{{$pro->product_name}}</h2>
             <p>Mã ID: {{$pro->product_id}}</p>
-            <img src="http://localhost:8080/shopbanhang/public/frontend/images/rating.png" alt="" />
-            <form method="post" action="http://localhost:8080/shopbanhang/save-cart">
+            <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/rating.png')}}" alt="" />
+            <form method="post" action="{{\Illuminate\Support\Facades\URL::to('/save-cart')}}">
                 {{csrf_field()}}
             <span>
 									<span>{{number_format($pro->product_price).'VNĐ'}}</span>
@@ -62,7 +62,7 @@
             <p><b>Thương hiệu:</b>{{$pro->brand_name}}</p>
             <p><b>Danh mục:</b>{{$pro->category_name}}</p>
             </form>
-            <a href=""><img src="http://localhost:8080/shopbanhang/public/frontend/images/share.png" class="share img-responsive"  alt="" /></a>
+            <a href=""><img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/share.png')}}" class="share img-responsive"  alt="" /></a>
         </div><!--/product-information-->
     </div>
 </div><!--/product-details-->
@@ -100,7 +100,7 @@
 											<input type="email" placeholder="Email Address"/>
 										</span>
                     <textarea name="" ></textarea>
-                    <b>Rating: </b> <img src="http://localhost:8080/shopbanhang/public/frontend/images/rating.png" alt="" />
+                    <b>Rating: </b> <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/rating.png')}}" alt="" />
                     <button type="button" class="btn btn-default pull-right">
                         Submit
                     </button>
@@ -122,7 +122,7 @@
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="{{'http://localhost:8080/shopbanhang/public/upload/product/'.$lienquan->product_image}}" width="200" height="230" alt="" />
+                                <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').$lienquan->product_image}}" width="200" height="230" alt="" />
                                 <h2>{{number_format($lienquan->product_price).'VNĐ'}}</h2>
                                 <p>{{$lienquan->product_name}}</p>
                                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
@@ -137,7 +137,7 @@
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="http://localhost:8080/shopbanhang/public/frontend/images/recommend1.jpg" alt="" />
+                                <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/recommend1.jpg')}}" alt="" />
                                 <h2>$56</h2>
                                 <p>Easy Polo Black Edition</p>
                                 <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
@@ -149,7 +149,7 @@
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="http://localhost:8080/shopbanhang/public/frontend/images/recommend2.jpg" alt="" />
+                                <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/recommend2.jpg')}}" alt="" />
                                 <h2>$56</h2>
                                 <p>Easy Polo Black Edition</p>
                                 <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
@@ -161,7 +161,7 @@
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="http://localhost:8080/shopbanhang/public/frontend/images/recommend3.jpg" alt="" />
+                                <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/recommend3.jpg')}}" alt="" />
                                 <h2>$56</h2>
                                 <p>Easy Polo Black Edition</p>
                                 <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>

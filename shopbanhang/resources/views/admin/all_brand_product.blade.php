@@ -64,21 +64,21 @@
                                     if($cate_pro->brand_status==0)
                                     {
                                         ?>
-                                        <a href="{{'http://localhost:8080/shopbanhang/active-brand-product/'.$cate_pro->brand_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/active-brand-product/').$cate_pro->brand_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
                                 <?php
                                     }
                                     else{
                                         ?>
-                                        <a href="{{'http://localhost:8080/shopbanhang/unactive-brand-product/'.$cate_pro->brand_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/unactive-brand-product/').$cate_pro->brand_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
                                 <?php
                                     }
 ?>
                             </span></td>
                         <td>
-                            <a href="{{'http://localhost:8080/shopbanhang/edit-brand-product/'.$cate_pro->brand_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-brand-product/').$cate_pro->brand_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                 <i class="fa fa-pencil-square-o text-success text-active"></i>
                             </a>
-                            <a onclick="return confirm('Are you sure to delete this row?')" href="{{'http://localhost:8080/shopbanhang/delete-brand-product/'.$cate_pro->brand_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                            <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-brand-product/').$cate_pro->brand_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                 <i class="fa fa-times text-danger text"></i></a>
                         </td>
                     </tr>

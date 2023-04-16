@@ -50,14 +50,15 @@ class CartController extends Controller
     public function add_cart_ajax(Request $request){
         $data = $request->all();
         $session_id = substr(md5(microtime()),rand(0,26),5);
-        $cart = Session::get('cart');
+        $cart = Session::get('newcart');
         if($cart==true)
         {
             $is_avaible = 0;
             foreach ($cart as $key =>$val)
             {
-                if($val['product_id']==$data['product_id']){
+                if($val['product_id']==$data['cart_product_id']){
                     $is_avaible++;
+                    print_r($key);
                 }
             }
             if($is_avaible==0)
@@ -68,9 +69,10 @@ class CartController extends Controller
                     'product_id'=>$data['cart_product_id'],
                     'cart_product_image'=>$data['cart_product_image'],
                     'product_price'=>$data['cart_product_price'],
+                    'product_qty'=>$data['cart_product_qty'],
 
                 );
-                Session::put('cart',$cart);
+                Session::put('newcart',$cart);
             }
         }else{
             $cart[] = array(
@@ -79,11 +81,73 @@ class CartController extends Controller
                 'product_id'=>$data['cart_product_id'],
                 'cart_product_image'=>$data['cart_product_image'],
                 'product_price'=>$data['cart_product_price'],
+                'product_qty'=>$data['cart_product_qty'],
 
             );
         }
-        Session::put('cart',$cart);
+        Session::put('newcart',$cart);
         Session::save();
+    }
+    public function gio_hang(Request $request){
+        $meta_desc = 'Giỏ hàng ajax';
+        $meta_keywords = 'Giỏ hàng ajax';
+        $meta_title = 'Giỏ hàng ajax';
+        $url_canonical = $request->url();
+        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
+        return view('pages.cart.cart_ajax')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+            ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+    }
+    public function delete_sp($session_id){
+        $cart = Session::get('newcart');
+        if($cart==true)
+        {
+            foreach ($cart as $item=>$value) {
+                if($value['session_id']==$session_id)
+                {
+                    unset($cart[$item]);
+                }
+            }
+            Session::put('newcart',$cart);
+            return redirect()->back()->with('message','Xóa sản phẩm thành công');
+        }
+        else{
+            return redirect()->back()->with('message','Xóa sản phẩm thất bại');
+        }
+    }
+    public function update_cart(Request $request)
+    {
+        $data = $request->all();
+        $cart = Session::get('newcart');
+        if($cart==true)
+        {
+            foreach ($data['cart_quantity'] as $key=>$qty) {
+                foreach ($cart as $sessionid=> $item) {
+                    if($item['session_id']==$key)
+                    {
+                        $cart[$sessionid]['product_qty']=$qty;
+                    }
+                }
+            }
+            Session::put('newcart',$cart);
+            return redirect()->back()->with('message','Cập nhật sản phẩm thành công');
+        }
+    }
+    public function del_all_product(){
+        $cart = Session::get('newcart');
+        if($cart==true)
+        {
+            Session::forget('newcart');
+            Session::forget('coupon');
+            return redirect()->back()->with('message','Xóa tất cả sản phẩm thành công');
+        }
+        else{
+            return redirect()->back()->with('message','Xóa tất cả sản phẩm thành công');
+        }
+    }
+    //coupon
+    public function check_coupon(Request $request){
+        $data = $request->all();
         print_r($data);
     }
 }

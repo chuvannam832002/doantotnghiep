@@ -37,6 +37,15 @@ Route::post('/update-category-product/{category_product_id}', 'App\Http\Controll
 //Login facebook
 Route::get('/login-facebook','App\Http\Controllers\LoginController@login_facebook');
 Route::get('/admin/callback','App\Http\Controllers\LoginController@callback_facebook');
+//coupon
+Route::get('/list-coupon','App\Http\Controllers\CouponController@list_coupon');
+Route::get('/insert-coupon','App\Http\Controllers\CouponController@insert_coupon');
+Route::post('/insert-coupon-code','App\Http\Controllers\CouponController@insert_coupon_code');
+Route::post('/check-coupon','App\Http\Controllers\CouponController@check_coupon');
+Route::get('/delete-coupon/{coupon_id}','App\Http\Controllers\CouponController@delete_coupon');
+Route::get('/del-all-coupon', 'App\Http\Controllers\CouponController@del_all_coupon');
+//delivery
+Route::get('/delivery', 'App\Http\Controllers\DeliveryController@delivery');
 //BrandProduct
 Route::get('/add-brand-product', 'App\Http\Controllers\BrandProduct@add_brand_product');
 Route::get('/edit-brand-product/{brand_product_id}', 'App\Http\Controllers\BrandProduct@edit_brand_product');
@@ -59,9 +68,13 @@ Route::post('/update-product/{product_id}', 'App\Http\Controllers\ProductControl
 Route::post('/save-cart', 'App\Http\Controllers\CartController@save_cart');
 Route::post('/add-cart-ajax', 'App\Http\Controllers\CartController@add_cart_ajax');
 Route::post('/update-cart-quantity', 'App\Http\Controllers\CartController@update_cart_quantity');
+Route::post('/update-cart', 'App\Http\Controllers\CartController@update_cart');
 Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');
-Route::get('/show-cart', 'App\Http\Controllers\CartController@show_cart');
+Route::get('/gio-hang', 'App\Http\Controllers\CartController@gio_hang');
+Route::get('/del-all-product', 'App\Http\Controllers\CartController@del_all_product');
 Route::get('/delete-to-cart/{rowId}', 'App\Http\Controllers\CartController@delete_cart');
+Route::get('/delete-sp/{session_id}', 'App\Http\Controllers\CartController@delete_sp');
+
 //login-checkout
 Route::get('/login-checkout', 'App\Http\Controllers\CheckoutController@login_checkout');
 Route::get('/logout-checkout', 'App\Http\Controllers\CheckoutController@logout_checkout');

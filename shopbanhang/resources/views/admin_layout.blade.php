@@ -276,7 +276,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Đơn hàng</span>
                         </a>
                         <ul class="sub">
+
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('/manage-order')}}">Quản lý đơn hàng</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Mã giảm giá</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/insert-coupon')}}">Thêm mã giảm giá</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/list-coupon')}}">Quản lý mã giảm giá</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Vận chuyển</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/insert-coupon')}}">Thêm mã giảm giá</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/delivery')}}">Quản lý vận chuyển</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -426,6 +447,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
 
     });
+        $(document).ready(function () {
+        $('.add-delivory').click(function () {
+            alert('ok');
+        })
+    })
 </script>
 <!-- //calendar -->
 </body>

@@ -24,7 +24,7 @@
     <link href="{{asset('public/frontend/css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
-    <link href="{{asset('public/frontend/css/sweet-alert.css')}}" rel="stylesheet">
+    <link href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="{{asset('public/frontend/js/html5shiv.js')}}"></script>
     <script src="{{asset('js/respond.min.js"')}}></script>
@@ -119,7 +119,7 @@
                             <?php
                             }
                             ?>
-                            <li><a href="{{\Illuminate\Support\Facades\URL::to('show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('gio-hang')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
                             <?php
                             if($customer_id!=NULL)
                             {
@@ -493,27 +493,40 @@
 <script src="{{asset('public/frontend/js/price-range.js')}}"></script>
 <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
 <script src="{{asset('public/frontend/js/main.js')}}"></script>
-<script src="{{asset('public/frontend/js/sweetalert.min.js')}}"></script>
+<script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
 <script type="text/javascript">
-    {{--$(document).ready(function () {--}}
-    {{--    $('.add-to-cart').click(function () {--}}
-    {{--        var id = $(this).data('id');--}}
-    {{--        var cart_product_id = $('.cart_product_id_'+id).val();--}}
-    {{--        var cart_product_name = $('.cart_product_name_'+id).val();--}}
-    {{--        var cart_product_image = $('.cart_product_image_'+id).val();--}}
-    {{--        var cart_product_price = $('.cart_product_price_'+id).val();--}}
-    {{--        var _token = $('input[name="_token"]').val();--}}
-    {{--        $.ajax({--}}
-    {{--            url:'{{url('/add-cart-ajax')}}',--}}
-    {{--            method:'POST',--}}
-    {{--            data:{cart_product_name:cart_product_name,cart_product_id:cart_product_id,cart_product_price:cart_product_price,cart_product_image:cart_product_image,--}}
-    {{--            _token:_token},--}}
-    {{--            success:function (data){--}}
-    {{--                alert(data);--}}
-    {{--            }--}}
-    {{--        })--}}
-    {{--    })--}}
-    {{--})--}}
+    $(document).ready(function () {
+        $('.add-to-cart').click(function () {
+            var id = $(this).data('id');
+            var cart_product_id = $('.cart_product_id_'+id).val();
+            var cart_product_name = $('.cart_product_name_'+id).val();
+            var cart_product_image = $('.cart_product_image_'+id).val();
+            var cart_product_price = $('.cart_product_price_'+id).val();
+            var cart_product_qty = $('.cart_product_qty_'+id).val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '{{url('/add-cart-ajax')}}',
+                method: 'POST',
+                data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price
+                    ,cart_product_qty:cart_product_qty,_token:_token},
+                success:function (){
+                    swal({
+                            title: "Đã thêm sản phẩm vào giỏ hàng",
+                            text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                            showCancelButton: true,
+                            cancelButtonText: "Xem tiếp",
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "Đi đến giỏ hàng",
+                            closeOnConfirm: false
+                        },
+                        function() {
+                            window.location.href = "{{url('/gio-hang')}}";
+                        });
+
+                }
+            })
+        })
+    })
 </script>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v16.0" nonce="F4eNZT3Y"></script>

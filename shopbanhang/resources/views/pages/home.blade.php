@@ -3,15 +3,25 @@
 <div class="features_items"><!--features_items-->
     <h2 class="title text-center">Sản phẩm mới nhất</h2>
     @foreach($all_product as $key=>$pro)
-        <a href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
     <div class="col-sm-4">
         <div class="product-image-wrapper">
             <div class="single-products">
                 <div class="productinfo text-center">
+                    <form>
+                        {{csrf_field()}}
+                        <input type="hidden" value="{{$pro->product_id}}" class="cart_product_id_{{$pro->product_id}}">
+                        <input type="hidden" value="{{$pro->product_name}}" class="cart_product_name_{{$pro->product_id}}">
+                        <input type="hidden" value="{{$pro->product_image}}" class="cart_product_image_{{$pro->product_id}}">
+                        <input type="hidden" value="{{$pro->product_price}}" class="cart_product_price_{{$pro->product_id}}">
+                        <input type="hidden" value="1" class="cart_product_qty_{{$pro->product_id}}">
+                        <input type="hidden" value="1" class="cart_product_qty_{{$pro->product_id}}">
+                        <a href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
                     <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" width="200" height="260" alt="" />
                     <h2>{{number_format($pro->product_price).'VNĐ'}}</h2>
                     <p>{{$pro->product_name}}</p>
-                    <a href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                    </a>
+                    <button type="button" data-id="{{$pro->product_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                    </form>
                 </div>
 {{--                <div class="product-overlay">--}}
 {{--                    <div class="overlay-content">--}}

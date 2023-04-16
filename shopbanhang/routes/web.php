@@ -46,6 +46,13 @@ Route::get('/delete-coupon/{coupon_id}','App\Http\Controllers\CouponController@d
 Route::get('/del-all-coupon', 'App\Http\Controllers\CouponController@del_all_coupon');
 //delivery
 Route::get('/delivery', 'App\Http\Controllers\DeliveryController@delivery');
+Route::post('/select-delivery', 'App\Http\Controllers\DeliveryController@select_delivery');
+Route::post('/select-delivery-home', 'App\Http\Controllers\DeliveryController@select_delivery_home');
+Route::post('/insert-delivery', 'App\Http\Controllers\DeliveryController@insert_delivery');
+Route::post('/update-delivery', 'App\Http\Controllers\DeliveryController@update_delivery');
+Route::post('/select-feeship', 'App\Http\Controllers\DeliveryController@select_feeship');
+Route::post('/calculator-fee', 'App\Http\Controllers\DeliveryController@calculator_fee');
+Route::get('/del-fee', 'App\Http\Controllers\DeliveryController@del_fee');
 //BrandProduct
 Route::get('/add-brand-product', 'App\Http\Controllers\BrandProduct@add_brand_product');
 Route::get('/edit-brand-product/{brand_product_id}', 'App\Http\Controllers\BrandProduct@edit_brand_product');

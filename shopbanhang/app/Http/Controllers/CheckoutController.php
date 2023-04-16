@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,10 +39,12 @@ class CheckoutController extends Controller
         $meta_keywords = '';
         $meta_title = '';
         $url_canonical = '';
+        $city = City::orderby('matp','asc')->get();
         if($check)
         {
             return view('pages.checkout.checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
-                ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+                ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+                ->with('city',$city);
         }
         else{
             return Redirect('/login-checkout');

@@ -526,6 +526,48 @@
                 }
             })
         })
+        $('.calculator_delivory').click(function () {
+            var city = $('.city').val();
+            var province = $('.province').val();
+            var wards = $('.wards').val();
+            var _token = $('input[name="_token"]').val();
+            if(city==''&& province==''&&wards=='')
+            {
+                alert('Làm ơn chọn để tính phí vận chuyển');
+            }
+            else{
+                $.ajax({
+                    url:'{{\Illuminate\Support\Facades\URL::to('/calculator-fee')}}',
+                    method:'POST',
+                    data:{matp:city,maqh:province,xaid:wards,_token:_token},
+                    success:function (data) {
+                        location.reload();
+                    }
+                })
+            }
+
+        })
+        $('.choose').on('change',function () {
+            var action = $(this).attr('id');
+            var matp = $(this).val();
+            var _token = $('input[name="_token"]').val();
+            var result = '';
+            if(action=='city'){
+                result = 'province';
+            }
+            else{
+                result = 'wards';
+            }
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/select-delivery-home')}}',
+                method:'POST',
+                data:{action:action,matp:matp,_token:_token},
+                success:function (data) {
+                    $('#'+result).html(data);
+
+                }
+            })
+        })
     })
 </script>
 <div id="fb-root"></div>

@@ -12,5 +12,5 @@ class Wards extends Model
         'name_xaphuong','type','maqh'
     ];
     protected $primaryKey = 'xaid';
-    protected $table = 'devvn_xaphuong';
+    protected $table = 'devvn_xaphuongthitran';
 }

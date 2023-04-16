@@ -79,7 +79,7 @@
                                     <input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-default check_out">
                                 </td>
                                 <td>
-                                    <a class="btn btn-default check_out" href="">Thanh toán</a>
+                                    <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/checkout')}}">Thanh toán</a>
                                 </td>
 
                                 <td>

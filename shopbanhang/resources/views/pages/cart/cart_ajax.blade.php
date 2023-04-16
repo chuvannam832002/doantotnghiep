@@ -37,8 +37,7 @@
                     $data = \Illuminate\Support\Facades\Session::get('newcart');
                     $total = 0;
                     @endphp
-                    @if($data==true
-                    )
+                    @if($data==true)
                         @foreach($data as $key=> $v_content)
                             @php
                             $subtotal = $v_content['product_price']*$v_content['product_qty'];
@@ -47,33 +46,35 @@
                             <tr>
                                 <form action="{{\Illuminate\Support\Facades\URL::to('/update-cart')}}" method="post">
                                     {{csrf_field()}}
-                                <td class="cart_product">
-                                    <a href=""><img src="{{asset('public/upload/product/'.$v_content['cart_product_image'])}}"
-                                                    width="100" height="100" alt=""></a>
-                                </td>
-                                <td class="cart_description">
-                                    <h4><a href=""></a></h4>
-                                    <p>{{$v_content['product_name']}}</p>
-                                </td>
-                                <td class="cart_price">
-                                    <p>{{number_format($v_content['product_price'],0,',','.')}}</p>
-                                </td>
-                                <td class="cart_quantity">
-                                    <div class="cart_quantity_button">
+                                    <td class="cart_product">
+                                        <a href=""><img src="{{asset('public/upload/product/'.$v_content['cart_product_image'])}}"
+                                                        width="100" height="100" alt=""></a>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4><a href=""></a></h4>
+                                        <p>{{$v_content['product_name']}}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{number_format($v_content['product_price'],0,',','.')}}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
                                             {{csrf_field()}}
                                             <input class="cart_quantity_input" type="number" min="1" name="cart_quantity[{{$v_content['session_id']}}]" value="{{$v_content['product_qty']}}" autocomplete="off" size="2">
                                             <input type="hidden" value="" name="rowId_cart" class="form-control">
 
-                                    </div>
-                                </td>
-                                <td class="cart_total">
-                                    <p class="cart_total_price">{{number_format($subtotal,0,',','.')}}
-                                    </p>
-                                </td>
-                                <td class="cart_delete">
-                                    <a class="cart_quantity_delete" href="{{\Illuminate\Support\Facades\URL::to('/delete-sp').'/'.$v_content['session_id']}}"><i class="fa fa-times"></i></a>
-                                </td>
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">{{number_format($subtotal,0,',','.')}}
+                                        </p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <a class="cart_quantity_delete" href="{{\Illuminate\Support\Facades\URL::to('/delete-sp').'/'.$v_content['session_id']}}"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </form>
                             </tr>
+                        @endforeach
                             <tr>
                                 <td>
                                     <input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-default check_out">
@@ -127,8 +128,6 @@
 {{--                                        <li>Phí vận chuyển: <span>Free</span></li>--}}
                                 </td>
                             </tr>
-                  </form>
-
                             <tr>
                                 <td colspan="5">
                                     <form method="post" action="{{\Illuminate\Support\Facades\URL::to('/check-coupon')}}">
@@ -138,7 +137,6 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
                     @else
                         <tr>
                             <td>
@@ -148,8 +146,6 @@
                             </td>
                         </tr>
                     @endif
-
-
                     </tbody>
                 </table>
 
@@ -166,10 +162,6 @@
 
                 <div class="col-sm-6">
                     <div class="total_area">
-
-
-
-
                     </div>
                 </div>
             </div>

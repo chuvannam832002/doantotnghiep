@@ -17,14 +17,16 @@
                     <thead>
                     <tr>
 
-                        <th>Tên người mua</th>
-                        <th>Địa chỉ</th>
+                        <th>Tên khách hàng</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
                     </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{$order_by_id->customer_name}}</td>
-                            <td>{{$order_by_id->customer_phone}}</td>
+                            <td>{{$customer->customer_name}}</td>
+                            <td>{{$customer->customer_email}}</td>
+                            <td>{{$customer->customer_phone}}</td>
 
                         </tr>
                     </tbody>
@@ -53,13 +55,23 @@
                         <th>Tên người vận chuyển</th>
                         <th>Địa chỉ</th>
                         <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Ghi chú</th>
+                        <th>Hình thức thanh toán</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{{$order_by_id->shipping_name}}</td>
-                        <td>{{$order_by_id->shipping_address}}</td>
-                        <td>{{$order_by_id->shipping_phone}}</td>
+                        <td>{{$shipping->shipping_name}}</td>
+                        <td>{{$shipping->shipping_address}}</td>
+                        <td>{{$shipping->shipping_phone}}</td>
+                        <td>{{$shipping->shipping_email}}</td>
+                        <td>{{$shipping->shipping_note}}</td>
+                        <td>@if($shipping->shipping_method==1)
+                                Chuyển khoản
+                            @else
+                                Tiền mặt
+                        @endif</td>
 
                     </tr>
                     </tbody>
@@ -99,12 +111,10 @@
                 <table class="table table-striped b-t b-light">
                     <thead>
                     <tr>
-                        <th style="width:20px;">
-                            <label class="i-checks m-b-none">
-                                <input type="checkbox"><i></i>
-                            </label>
-                        </th>
+
+                        <th>Số thứ tự</th>
                         <th>Tên sản phẩm</th>
+                        <th>Mã giảm giá</th>
                         <th>Số lượng</th>
                         <th>Giá </th>
                         <th>Tổng tiền</th>
@@ -112,14 +122,49 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                    $i = 0 ;
+                    $total=0;
+                    @endphp
+                    @foreach($order_detail_new as $key=>$order_detail)
+                        @php
+                        $i++;
+                        $subtotal = $order_detail->product_price*$order_detail->product_sales_quantity;
+                        $total+=$subtotal;
+                        @endphp
                     <tr>
-                        <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                        <td>{{$order_by_id->product_name}}</td>
-                        <td>{{$order_by_id->product_sales_quantity}}</td>
-                        <td>{{$order_by_id->product_price}}</td>
-                        <td>{{$order_by_id->product_price*$order_by_id->product_sales_quantity}}</td>
+                        <td>{{$i}}</td>
+                        <td>{{$order_detail->product_name}}</td>
+                        <td>@if($order_detail->product_coupon!='no')
+                                {{$order_detail->product_coupon}}
+                            @else
+                                Không mã
+                        @endif</td>
+                        <td>{{$order_detail->product_sales_quantity}}</td>
+                        <td>{{number_format($order_detail->product_price,0,',','.')}} đ</td>
+                        <td>{{number_format($order_detail->product_price*$order_detail->product_sales_quantity,0,',','.')}} đ</td>
 
                     </tr>
+                    @endforeach
+                    <tr><td colspan="6">
+                            @php
+                            $total_coupon = 0;
+                            @endphp
+
+                                @if($coupon_condition==1 && $coupon_number)
+                                    @php
+                                    $total_after_coupon = ($total * $coupon_number)/100;
+                                    echo 'Tổng giảm:'.$coupon_number.' đ</br>';
+                                    $total_coupon=$total-$total_after_coupon;
+                                        @endphp
+                            @else
+                                @php
+                                    echo 'Tổng giảm:'.$coupon_number.' đ</br>';
+                                    $total_coupon=$total-$coupon_number;
+                                @endphp
+                                @endif
+                            Thành tiền: {{number_format($total_coupon,0,',','.')}} đ
+                        </td></tr>
                     </tbody>
                 </table>
             </div>

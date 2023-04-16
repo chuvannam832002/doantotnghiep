@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Feeship;
 use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\Province;
 use App\Models\Shipping;
 use App\Models\Wards;
@@ -165,6 +166,25 @@ $fee_ship->save();
         $order->shipping_id = $shipping_id;
         $order->order_status = 1;
         $order->order_code = $checkout_code;
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $order->created_at = now();
         $order->save();
+        if(Session::get('newcart')){
+            foreach (Session::get('newcart') as $key=>$cart)
+            {
+                $order_details = new OrderDetails();
+                $order_details->order_code = $checkout_code;
+                $order_details->product_id = $cart['product_id'];
+                $order_details->product_name= $cart['product_name'];
+                $order_details->product_price= $cart['product_price'];
+                $order_details->product_feeship= $data['order_fee'];
+                $order_details->product_coupon = $data['order_coupon'];
+                $order_details->product_sales_quantity = $cart['product_qty'];
+                $order_details->save();
+            }
+        }
+        Session::forget('newcart');
+        Session::forget('coupon');
+        Session::forget('fee');
     }
 }

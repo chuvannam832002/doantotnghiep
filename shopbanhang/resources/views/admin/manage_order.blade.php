@@ -49,23 +49,27 @@
                                 <input type="checkbox"><i></i>
                             </label>
                         </th>
-                        <th>Tên người đặt</th>
-                        <th>Tổng giá tiền</th>
-                        <th>Tình trạng</th>
-                        <th>Hiển thị</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tình trạng đơn hàng</th>
                         <th style="width:30px;"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($all_order as $key =>$cate_pro)
+                    @foreach($order as $key =>$cate_pro)
                         <tr>
                             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                            <td>{{$cate_pro->customer_name}}</td>
-                            <td>{{$cate_pro->order_total}}</td>
-                            <td>{{$cate_pro->order_status}}</td>
+                            <td>{{$cate_pro->order_code}}</td>
                             <td>
-                                <a href="{{\Illuminate\Support\Facades\URL::to('/view-order/').'/'.$cate_pro->order_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
-                                    <i class="fa fa-pencil-square-o text-success text-active"></i>
+                                @if($cate_pro->order_status==1)
+                                    Đơn hàng mới
+                                @else
+                                    Đã xử lý
+                                @endif
+                            </td>
+{{--                            <td>{{$cate_pro->order_status}}</td>--}}
+                            <td>
+                                <a href="{{\Illuminate\Support\Facades\URL::to('/view-order/').'/'.$cate_pro->order_code}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                                    <i class="fa fa-eye text-success text-active"></i>
                                 </a>
                                 <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-order/').'/'.$cate_pro->order_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                     <i class="fa fa-times text-danger text"></i></a>

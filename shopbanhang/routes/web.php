@@ -92,8 +92,10 @@ Route::post('/order-place', 'App\Http\Controllers\CheckoutController@order_place
 Route::post('/login-customer', 'App\Http\Controllers\CheckoutController@login_customer');
 Route::post('/save-checkout-customer', 'App\Http\Controllers\CheckoutController@save_checkout_customer');
 //order
-Route::get('/manage-order', 'App\Http\Controllers\CheckoutController@manage_order');
-Route::get('/view-order/{orderId}', 'App\Http\Controllers\CheckoutController@view_order');
+Route::get('/manage-order', 'App\Http\Controllers\OrderController@manage_order');
+Route::get('/view-order/{ordercode}', 'App\Http\Controllers\OrderController@view_order');
+//Route::get('/manage-order', 'App\Http\Controllers\CheckoutController@manage_order');
+//Route::get('/view-order/{orderId}', 'App\Http\Controllers\CheckoutController@view_order');
 Route::get('/delete-order/{orderId}', 'App\Http\Controllers\CheckoutController@delete_order');
 //checkout
 Route::post('/confirm-order', 'App\Http\Controllers\DeliveryController@confirm_order');

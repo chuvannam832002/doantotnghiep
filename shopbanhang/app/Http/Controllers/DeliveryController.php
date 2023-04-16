@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Feeship;
+use App\Models\Order;
 use App\Models\Province;
+use App\Models\Shipping;
 use App\Models\Wards;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -98,10 +100,22 @@ $fee_ship->save();
             $feeship = Feeship::where('fee_matp',$data['matp'])
                 ->where('fee_maqh',$data['maqh'])
                 ->where('fee_xaid',$data['xaid'])->get();
-            foreach ($feeship as $key=>$fee) {
-                Session::put('fee',$fee->fee_ship);
-                Session::save();
+            if($feeship)
+            {
+                $count = $feeship->count();
+                if($count>0)
+                {
+                    foreach ($feeship as $key=>$fee) {
+                        Session::put('fee',$fee->fee_ship);
+                        Session::save();
+                    }
+                }
+                else{
+                    Session::put('fee',25000);
+                    Session::save();
+                }
             }
+
         }
     }
     public function del_fee(){
@@ -133,5 +147,24 @@ $fee_ship->save();
             }
             echo $output;
         }
+    }
+    public function confirm_order(Request $request){
+        $data =$request->all();
+        $shipping = new Shipping();
+        $shipping->shipping_name = $data['shipping_name'];
+        $shipping->shipping_email = $data['shipping_email'];
+        $shipping->shipping_phone = $data['shipping_phone'];
+        $shipping->shipping_address = $data['shipping_address'];
+        $shipping->shipping_note = $data['shipping_note'];
+        $shipping->shipping_method = $data['shipping_method'];
+        $shipping->save();
+        $shipping_id = $shipping->shipping_id;
+        $checkout_code = substr(md5(microtime()),rand(0,26),5);
+        $order = new Order();
+        $order->customer_id = Session::get('customer_id');
+        $order->shipping_id = $shipping_id;
+        $order->order_status = 1;
+        $order->order_code = $checkout_code;
+        $order->save();
     }
 }

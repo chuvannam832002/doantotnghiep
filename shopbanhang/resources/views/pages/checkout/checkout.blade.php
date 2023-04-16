@@ -19,14 +19,30 @@
                         <div class="bill-to">
                             <p>Thông tin gửi hàng</p>
                             <div class="form-one">
-                                <form action="{{\Illuminate\Support\Facades\URL::to('/save-checkout-customer')}}" method="post">
+                                <form action="" method="post">
                                     {{csrf_field()}}
-                                    <input type="text" name="shipping_email" placeholder="Email">
-                                    <input type="text" name="shipping_name" placeholder="Họ và tên">
-                                    <input type="text" name="shipping_address" placeholder="Địa chỉ">
-                                    <input type="text" name="shipping_phone" placeholder="Số điện thoại">
-                                    <textarea name="shipping_note"  placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
-                                    <input type="submit" value="Xác nhận đơn hàng" name="update_qty" class="btn btn-primary btn-sm">
+                                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email">
+                                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên">
+                                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ">
+                                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Số điện thoại">
+                                    <textarea name="shipping_note" class="shipping_note"  placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
+                                    @if(\Illuminate\Support\Facades\Session::get('fee'))
+                                        <input type="hidden" name="order_fee" class="order_fee" value="{{\Illuminate\Support\Facades\Session::get('fee')}}">
+                                    @else
+                                        <input type="hidden" name="order_fee" class="order_fee" value="10000">
+                                    @endif
+                                    @if(\Illuminate\Support\Facades\Session::get('coupon'))
+                                        @foreach(\Illuminate\Support\Facades\Session::get('coupon') as $key=>$cou)
+                                            <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
+                                        @endforeach
+                                    @else
+                                        <input type="hidden" name="order_coupon" class="order_coupon" value="Không có">
+                                    @endif
+                                        <select name="payment_select" class="form-control input-lg m-bot15 payment_select">
+                                            <option value="1">Qua chuyển khoản</option>
+                                            <option value="2">Thanh toán bằng tiền mặt</option>
+                                        </select>
+                                        <input type="button" value="Xác nhận đơn hàng" name="send_order" class="btn btn-primary btn-sm send_order">
                                 </form>
                                 <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/insert-coupon-code')}}" method="post">
                                     {{csrf_field()}}
@@ -138,7 +154,7 @@
                                             @endif
 
                                             <td>
-                                                <li>Tổng tiền: <span>{{$total}}</span></li>
+                                                <li>Tổng tiền: <span>{{$total}} đ</span></li>
                                                 @if(\Illuminate\Support\Facades\Session::get('coupon'))
                                                     @foreach(\Illuminate\Support\Facades\Session::get('coupon') as $key=>$item)
                                                         <li>
@@ -147,7 +163,7 @@
                                                                 <p>
                                                                     @php
                                                                         $total_coupon = ($total*$item['coupon_number'])/100;
-                                                                        echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').'</li></p>';
+                                                                        echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').' đ</li></p>';
                                                                     @endphp
                                                                 </p>
                                                                 <p>
@@ -160,7 +176,7 @@
                                                             <p>
                                                                 @php
                                                                     $total_coupon = ($total-$item['coupon_number']);
-                                                                    echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').'</li></p>';
+                                                                    echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').'đ</li></p>';
                                                                 @endphp
                                                             </p>
                                                             <p>
@@ -183,7 +199,7 @@
                                                         $total_after_fee = $total - \Illuminate\Support\Facades\Session::get('fee');
                                                         @endphp
                                                 @endif
-                                                <li>Tổng còn: </li>
+                                                <li>Tổng còn:
                                                 @php
                                                 if(\Illuminate\Support\Facades\Session::get('fee')&&!\Illuminate\Support\Facades\Session::get('coupon'))
                                                     {
@@ -202,6 +218,7 @@
                                                 }
                                                 @endphp
                                                         {{--                                        <li>Phí vận chuyển: <span>Free</span></li>--}}
+                                                đ</li>
                                             </td>
                                         </tr>
                                         </form>
@@ -235,21 +252,7 @@
 
                 </div>
             </div>
-            <div class="review-payment">
-                <h2>Xem lại giỏ hàng</h2>
-            </div>
 
-            <div class="payment-options">
-					<span>
-						<label><input type="checkbox"> Direct Bank Transfer</label>
-					</span>
-                <span>
-						<label><input type="checkbox"> Check Payment</label>
-					</span>
-                <span>
-						<label><input type="checkbox"> Paypal</label>
-					</span>
-            </div>
         </div>
     </section> <!--/#cart_items-->
 

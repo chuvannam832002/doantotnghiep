@@ -91,7 +91,9 @@
                                         <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/del-all-coupon')}}">Xóa mã khuyến mãi</a>
                                     </td>
                                 @endif
-
+                                <td>
+                                    <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/checkout')}}">Đặt hàng</a>
+                                </td>
                                 <td>
                                         <li>Tổng tiền: <span>{{$total}}</span></li>
                                         @if(\Illuminate\Support\Facades\Session::get('coupon'))

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+//use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryProduct extends Controller
 {
@@ -33,7 +34,6 @@ class CategoryProduct extends Controller
         $data['slug_category_product'] = $request->slug_category_product;
         $data['meta_keywords'] = $request->category_product_keywords;
         $data['category_des'] = $request->category_product_desc;
-        $data['meta_desc'] = $request->category_product_desc;
         $data['category_status'] = $request->category_product_status;
         DB::table('tbl_category_product')->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
@@ -89,4 +89,15 @@ class CategoryProduct extends Controller
         return view('pages.category.show_category')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('category_by_id',$category_by_id)
             ->with('cate_name',$cate_name)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
     }
+    //import data
+//    public function export_csv(){
+//        return Excel::download(new ExcelExport , 'product.xlsx');
+//    }
+//
+//    public function import_csv(Request $request){
+//        $path = $request->file('file')->getRealPath();
+//        Excel::import(new ExcelImport, $path);
+//        return back();
+//    }
+
 }

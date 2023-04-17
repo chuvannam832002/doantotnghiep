@@ -122,6 +122,8 @@
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/bumbummen99/shoppingcart" />
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/league/oauth1-client" />
       <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/laravel/socialite" />
+      <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/maatwebsite/excel" />
+      <excludeFolder url="file://$MODULE_DIR$/shopbanhang/vendor/phpoffice/phpexcel" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

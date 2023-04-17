@@ -265,10 +265,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="leftside-navigation">
                 <ul class="sidebar-menu" id="nav-accordion">
                     <li>
-                        <a class="active" href="index.html">
+                        <a class="active" href="{{\Illuminate\Support\Facades\URL::to('/dashboard')}}">
                             <i class="fa fa-dashboard"></i>
                             <span>Tổng quan</span>
                         </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Banner</span>
+                        </a>
+                        <ul class="sub">
+
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/manage-slider')}}">Quản lý Slide</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-slider')}}">Thêm Slide</a></li>
+                        </ul>
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;">
@@ -405,6 +416,70 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     }
                 })
             }
+            $('.order_orderdetails').change(function () {
+                var order_status = $(this).val();
+                var order_id= $(this).children(":selected").attr("id");
+                var _token =$('input[name="_token"]').val();
+                var order_code = $('.order_product_code').val();
+                //lay ra so luong
+                quantity=[];
+                $("input[name='product_sales_quantity']").each(function () {
+                    quantity.push($(this).val());
+                })
+                order_detail_product_id=[];
+                $("input[name='order_detail_product_id']").each(function () {
+                    order_detail_product_id.push($(this).val());
+                })
+                //lay ra product id
+                order_product_id=[];
+                $("input[name='order_product_id']").each(function () {
+                    order_product_id.push($(this).val());
+                })
+                j=0;k=0;
+                for (i=0;i<order_product_id.length;i++)
+                {
+                    var order_qty = $('.order_qty_'+order_product_id[i]).val();
+                    var order_qty_storage =$('.order_qty_storage_'+order_product_id[i]).val();
+                    var order_qty_sold =$('.order_qty_sold_'+order_product_id[i]).val();
+                    if(parseInt(order_qty)>parseInt(order_qty_storage))
+                    {
+                        j++;
+                        alert('Số lượng bán trong kho không đủ')
+                        $('.color_qty_'+order_product_id[i]).css('background','#ADD8E6')
+                    }
+                    if(order_status!=2)
+                    {
+                        if(parseInt(order_qty_sold)<parseInt(order_qty))
+                        {
+                            if(j==0)
+                            {
+                                k++;
+                                alert('Số lượng trả về không đủ')
+                                $('.color_qty_'+order_product_id[i]).css('background','#ADD8E6')
+                            }
+                        }
+                    }
+
+                }
+                if(j==0)
+                {
+                    if(k==0)
+                    {
+                        $.ajax({
+                            url:'{{\Illuminate\Support\Facades\URL::to('/update-order-qty')}}',
+                            method:'POST',
+                            data:{order_status:order_status,order_id:order_id,order_detail_product_id:order_detail_product_id,quantity:quantity,order_product_id:order_product_id,_token:_token},
+                            success:function (data) {
+                                alert('Cập nhật số lượng thành công');
+                                location.reload();
+                            }
+                        })
+                    }
+
+
+                }
+
+            })
             $(document).on('blur','.fee_feeship_edit',function () {
                 var feeship_id = $(this).data('feeship_id');
                 var fee_value = $(this).text();
@@ -415,6 +490,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     data:{feeship_id:feeship_id,fee_value:fee_value,_token:_token},
                     success:function (data) {
                         fectch_delivery();
+                    }
+                })
+            })
+            $('.update_quantity_order').click(function () {
+                var order_product_id = $(this).data('product_id');
+                var order_qty = $('.order_qty_'+order_product_id).val();
+                var order_code = $('.order_product_code').val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url:'{{\Illuminate\Support\Facades\URL::to('/update-qty')}}',
+                    method:'POST',
+                    data:{order_product_id:order_product_id,order_qty:order_qty,order_code:order_code,_token:_token},
+                    success:function (data) {
+                        alert('Cập nhật số lượng thành công');
+                        location.reload();
                     }
                 })
             })

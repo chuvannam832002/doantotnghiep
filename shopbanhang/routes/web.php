@@ -20,6 +20,9 @@ Route::post('/tim-kiem', 'App\Http\Controllers\HomeController@search');
 Route::get('/danhmucsanpham/{category_id}', 'App\Http\Controllers\CategoryProduct@show_category_home');
 Route::get('/thuonghieusanpham/{brand_id}', 'App\Http\Controllers\BrandProduct@show_brand_home');
 Route::get('/chitietsanpham/{product_id}', 'App\Http\Controllers\ProductController@detail_product');
+//order
+Route::post('/update-order-qty', 'App\Http\Controllers\OrderController@update_order_qty');
+Route::post('/update-qty', 'App\Http\Controllers\OrderController@update_qty');
 //backend
 Route::get('/admin', 'App\Http\Controllers\AdminController@index');
 Route::get('/dashboard', 'App\Http\Controllers\AdminController@showdashboard');
@@ -99,3 +102,12 @@ Route::get('/view-order/{ordercode}', 'App\Http\Controllers\OrderController@view
 Route::get('/delete-order/{orderId}', 'App\Http\Controllers\CheckoutController@delete_order');
 //checkout
 Route::post('/confirm-order', 'App\Http\Controllers\DeliveryController@confirm_order');
+//banner
+Route::get('/manage-slider', 'App\Http\Controllers\SliderController@manage_banner');
+Route::get('/add-slider', 'App\Http\Controllers\SliderController@add_banner');
+Route::get('/active-slider/{sliderid}', 'App\Http\Controllers\SliderController@active_banner');
+Route::get('/unactive-slider/{sliderid}', 'App\Http\Controllers\SliderController@unactive_banner');
+Route::post('/save-slider', 'App\Http\Controllers\SliderController@save_banner');
+//import and export data
+Route::post('/import-csv', 'App\Http\Controllers\CategoryProduct@import_csv');
+Route::post('/export-csv', 'App\Http\Controllers\CategoryProduct@export_csv');

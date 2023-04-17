@@ -50,6 +50,7 @@
                             </label>
                         </th>
                         <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
                         <th>Giá</th>
                         <th>Hình sản phẩm</th>
                         <th>Danh mục</th>
@@ -63,6 +64,7 @@
                     <tr>
                         <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
                         <td>{{$cate_pro->product_name}}</td>
+                        <td>{{$cate_pro->product_quantity}}</td>
                         <td>{{$cate_pro->product_price}}</td>
                         <td><img src="{{'public/upload/product/'.$cate_pro->product_image}}" height="150" width="150"></td>
                         <td>{{$cate_pro->category_name}}</td>

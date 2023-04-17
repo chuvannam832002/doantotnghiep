@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class, //cho provider
+//        Maatwebsite\Excel\ExcelServiceProvider::class
     ],
 
     /*
@@ -213,6 +214,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'Socialte'=>Laravel\Socialite\Facades\Socialite::class,
+//        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
     ])->toArray(),
 
 ];

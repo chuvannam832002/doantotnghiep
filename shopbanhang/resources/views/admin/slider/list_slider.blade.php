@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Liệt kê danh mục sản phẩm
+                Liệt kê Banner
             </div>
 
             <div class="row w3-res-tb">
@@ -49,54 +49,44 @@
                                 <input type="checkbox"><i></i>
                             </label>
                         </th>
-                        <th>Tên danh mục</th>
-                        <th>Hiển thị</th>
+                        <th>Tên Slide</th>
+                        <th>Hình ảnh</th>
+                        <th>Mô tả</th>
+                        <th>Tình trạng</th>
                         <th style="width:30px;"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($all_category_product as $key =>$cate_pro)
-                    <tr>
-                        <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                        <td>{{$cate_pro->category_name}}</td>
-                        <td><span class="text-ellipsis">
+                    @foreach($slider as $key =>$cate_pro)
+                        <tr>
+                            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+                            <td>{{$cate_pro->slider_name}}</td>
+                            <td><img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$cate_pro->slider_image}}" width="120" height="100"> </td>
+                            <td>{{$cate_pro->slider_desc}}</td>
+                            <td><span class="text-ellipsis">
                                 <?php
-                                    if($cate_pro->category_status==0)
+                                    if($cate_pro->slider_status==0)
                                     {
                                         ?>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/active-category-product/').'/'.$cate_pro->category_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/active-slider/').'/'.$cate_pro->slider_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
                                 <?php
                                     }
                                     else{
                                         ?>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/unactive-category-product/').'/'.$cate_pro->category_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
+                                        <a href="{{\Illuminate\Support\Facades\URL::to('/unactive-slider/').'/'.$cate_pro->slider_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
                                 <?php
                                     }
-?>
+                                        ?>
                             </span></td>
-                        <td>
-                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-category-product/').'/'.$cate_pro->category_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
-                                <i class="fa fa-pencil-square-o text-success text-active"></i>
-                            </a>
-                            <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-category-product/').'/'.$cate_pro->category_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
-                                <i class="fa fa-times text-danger text"></i></a>
-                        </td>
-                    </tr>
+                            <td>
+
+                                <a onclick="return confirm('Are you sure to delete this slide?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-slider/').'/'.$cate_pro->slider_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                                    <i class="fa fa-times text-danger text"></i></a>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
-{{--                import--}}
-{{--                <form action="{{\Illuminate\Support\Facades\URL::to('import-csv')}}" method="POST" enctype="multipart/form-data">--}}
-{{--                    @csrf--}}
-{{--                    <input type="file" name="file" accept=".xlsx"><br>--}}
-{{--                    <input type="submit" value="Import file Excel" name="import_csv" class="btn btn-warning">--}}
-{{--                </form>--}}
-{{--                export--}}
-{{--                <form action="{{\Illuminate\Support\Facades\URL::to('export-csv')}}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    <input type="submit" value="Export file Excel" name="export_csv" class="btn btn-success">--}}
-{{--                </form>--}}
-
             </div>
             <footer class="panel-footer">
                 <div class="row">

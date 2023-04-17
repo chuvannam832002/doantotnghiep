@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -118,7 +119,8 @@ class ProductController extends Controller
     public function detail_product($product_id){
         $detail_product = DB::table('tbl_product')->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
             ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')->where('tbl_product.product_id',$product_id)->get();
-
+        $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
+        $all_product = DB::table('tbl_product')->where('product_status','0')->orderBy('product_id','desc')->get();
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         foreach ($detail_product as $key=>$values)
@@ -134,7 +136,8 @@ class ProductController extends Controller
             ->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
         return view('pages.sanpham.detail_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
-            ->with('product_details',$detail_product)->with('relate',$related_product)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+            ->with('product_details',$detail_product)->with('relate',$related_product)->with('meta_desc',$meta_desc)
+            ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slide',$slider);
     }
 
 }

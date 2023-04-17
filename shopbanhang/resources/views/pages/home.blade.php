@@ -12,8 +12,8 @@
                         <input type="hidden" value="{{$pro->product_id}}" class="cart_product_id_{{$pro->product_id}}">
                         <input type="hidden" value="{{$pro->product_name}}" class="cart_product_name_{{$pro->product_id}}">
                         <input type="hidden" value="{{$pro->product_image}}" class="cart_product_image_{{$pro->product_id}}">
+                        <input type="hidden"  class="cart_product_quantity_{{$pro->product_id}}" value="{{$pro->product_quantity}}" />
                         <input type="hidden" value="{{$pro->product_price}}" class="cart_product_price_{{$pro->product_id}}">
-                        <input type="hidden" value="1" class="cart_product_qty_{{$pro->product_id}}">
                         <input type="hidden" value="1" class="cart_product_qty_{{$pro->product_id}}">
                         <a href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
                     <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" width="200" height="260" alt="" />

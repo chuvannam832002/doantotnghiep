@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slider;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ class CartController extends Controller
         $data['weight']='123';
         $data['options']['image']=$product_info->product_image;
         Cart::add($data);
-        Cart::setGlobalTax(2);
+//        Cart::setGlobalTax(2);
         return Redirect::to('http://localhost:8080/shopbanhang/show-cart');
     }
     public function show_cart(){
@@ -58,7 +59,6 @@ class CartController extends Controller
             {
                 if($val['product_id']==$data['cart_product_id']){
                     $is_avaible++;
-                    print_r($key);
                 }
             }
             if($is_avaible==0)
@@ -68,9 +68,9 @@ class CartController extends Controller
                     'product_name'=>$data['cart_product_name'],
                     'product_id'=>$data['cart_product_id'],
                     'cart_product_image'=>$data['cart_product_image'],
+                    'product_quantity'=>$data['cart_product_quantity'],
                     'product_price'=>$data['cart_product_price'],
                     'product_qty'=>$data['cart_product_qty'],
-
                 );
                 Session::put('newcart',$cart);
             }
@@ -79,6 +79,7 @@ class CartController extends Controller
                 'session_id'=>$session_id,
                 'product_name'=>$data['cart_product_name'],
                 'product_id'=>$data['cart_product_id'],
+                'product_quantity'=>$data['cart_product_quantity'],
                 'cart_product_image'=>$data['cart_product_image'],
                 'product_price'=>$data['cart_product_price'],
                 'product_qty'=>$data['cart_product_qty'],
@@ -92,11 +93,13 @@ class CartController extends Controller
         $meta_desc = 'Giỏ hàng ajax';
         $meta_keywords = 'Giỏ hàng ajax';
         $meta_title = 'Giỏ hàng ajax';
+        $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
         $url_canonical = $request->url();
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         return view('pages.cart.cart_ajax')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
-            ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+            ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+            ->with('slide',$slider);
     }
     public function delete_sp($session_id){
         $cart = Session::get('newcart');

@@ -111,3 +111,6 @@ Route::post('/save-slider', 'App\Http\Controllers\SliderController@save_banner')
 //import and export data
 Route::post('/import-csv', 'App\Http\Controllers\CategoryProduct@import_csv');
 Route::post('/export-csv', 'App\Http\Controllers\CategoryProduct@export_csv');
+//Authe register
+Route::get('/register-auth', 'App\Http\Controllers\AuthController@register_auth');
+Route::post('/register', 'App\Http\Controllers\AuthController@register');

@@ -31,13 +31,21 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Mô tả danh mục</label>
-                        <textarea style="resize: none" rows="8" class="form-control" required name="category_product_desc" id="exampleInputPassword1">
-                        </textarea>
+                        <textarea style="resize: none" rows="8" class="form-control" required name="category_product_desc" id="exampleInputPassword1"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Từ khóa danh mục</label>
-                        <textarea style="resize: none" rows="8" class="form-control" required name="category_product_keywords" id="exampleInputPassword1">
-                        </textarea>
+                        <textarea style="resize: none" rows="8" class="form-control" required name="category_product_keywords" id="exampleInputPassword1"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Thuộc danh mục</label>
+                        <select name="category_parent"  class="form-control input-lg m-bot15">
+                            <option value="0">----Danh mục cha----</option>
+                      @foreach($category_product as $value)
+                                <option value="{{$value->category_id}}">{{$value->category_name}}</option>
+
+                      @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">Hiển thị</label>

@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                Thêm thương hiệu sản phẩm
+                Thêm danh mục bài viết
             </header>
             <?php
             $message=\Illuminate\Support\Facades\Session::get('message');
@@ -19,19 +19,23 @@
             ?>
             <div class="panel-body">
                 <div class="position-center">
-                    <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/save-brand-product')}}" method="post">
+                    <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/save-cate-post')}}" method="post">
                         {{csrf_field()}}
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Tên thương hiệu</label>
-                            <input type="text" name="brand_product_name" required class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
+                            <label for="exampleInputEmail1">Tên bài viết</label>
+                            <input type="text" name="cate_post_name" required class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Mô tả thương hiệu</label>
-                            <textarea style="resize: none" rows="8" required class="form-control" name="brand_product_desc" id="exampleInputPassword1"></textarea>
+                            <label for="exampleInputEmail1">Slug</label>
+                            <input type="text" name="cate_post_slug" required class="form-control" id="exampleInputEmail1" placeholder="Slug">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Mô tả bài viết</label>
+                            <textarea style="resize: none" rows="8" required class="form-control" name="cate_post_desc" id="exampleInputPassword1"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Hiển thị</label>
-                            <select name="brand_product_status" class="form-control input-lg m-bot15">
+                            <select name="cate_post_status" class="form-control input-lg m-bot15">
                                 <option value="1">Ẩn</option>
                                 <option value="0">Hiển thị</option>
                             </select>

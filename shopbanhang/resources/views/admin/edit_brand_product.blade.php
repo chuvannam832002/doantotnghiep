@@ -28,9 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả thương hiệu</label>
-                            <textarea style="resize: none" rows="5" class="form-control" name="brand_product_desc" id="exampleInputPassword1">
-                      {{$edit_value->brand_des}}
-                        </textarea>
+                            <textarea style="resize: none" rows="5" class="form-control" name="brand_product_desc" id="exampleInputPassword1">{{$edit_value->brand_des}}</textarea>
                         </div>
                         <button type="submit" name="add_brand_product" class="btn btn-info">Cập nhật thương hiệu</button>
                     </form>

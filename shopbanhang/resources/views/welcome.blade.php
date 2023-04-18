@@ -158,17 +158,18 @@
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('/trang-chu')}}" class="active">Trang chủ</a></li>
                             <li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="shop.html">Products</a></li>
-                                    <li><a href="product-details.html">Product Details</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="login.html">Login</a></li>
+                                    @foreach($cate_product as $key=>$catego_ry)
+                                        <li><a href="{{\Illuminate\Support\Facades\URL::to('/danh-muc').'/'.$catego_ry->slug_category_product}}">{{$catego_ry->category_name}}</a></li>
+
+                                    @endforeach
+
                                 </ul>
                             </li>
                             <li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
+                                    @foreach($cate_post as $key=>$cate_posts)
+                                        <li><a href="{{\Illuminate\Support\Facades\URL::to('/danh-muc-bai-viet').'/'.$cate_posts->cate_post_slug}}">{{$cate_posts->cate_post_name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li><a href="404.html">Giỏ hàng</a></li>
@@ -243,24 +244,25 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordian">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                      <a href="{{\Illuminate\Support\Facades\URL::to('/danhmucsanpham/').'/'.$cate->slug_category_product}}">
+                                      <a data-toggle="collapse" data-parent="#accordian" href="#{{$cate->slug_category_product}}">
                                           {{$cate->category_name}}
+                                          <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+
                                       </a>
                                     </a>
                                 </h4>
                             </div>
-{{--                            <div id="sportswear" class="panel-collapse collapse">--}}
-{{--                                <div class="panel-body">--}}
-{{--                                    <ul>--}}
-{{--                                        <li><a href="#">Nike </a></li>--}}
-{{--                                        <li><a href="#">Under Armour </a></li>--}}
-{{--                                        <li><a href="#">Adidas </a></li>--}}
-{{--                                        <li><a href="#">Puma</a></li>--}}
-{{--                                        <li><a href="#">ASICS </a></li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            <div id="{{$cate->slug_category_product}}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach($category_product_pro as $key2=>$cate_pro)
+                                            @if($cate_pro->category_parent==$cate->category_id)
+                                                <li><a href="{{\Illuminate\Support\Facades\URL::to('/danhmucsanpham/').'/'.$cate_pro->slug_category_product}}">{{$cate_pro->category_name}}</a></li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         @endforeach
                     </div><!--/category-products-->

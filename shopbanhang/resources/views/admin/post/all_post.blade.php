@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Liệt kê danh mục sản phẩm
+                Liệt kê bài viết
             </div>
 
             <div class="row w3-res-tb">
@@ -49,70 +49,44 @@
                                 <input type="checkbox"><i></i>
                             </label>
                         </th>
-                        <th>Tên danh mục</th>
-                        <th>Thuộc danh mục</th>
-                        <th>SLug</th>
+                        <th>Tên  bài viết</th>
+                        <th>Hình ảnh</th>
+                        <th>Slug</th>
+                        <th>Mô tả  bài viết</th>
+                        <th>Từ khóa  bài viết</th>
+                        <th>Danh mục bài viết</th>
                         <th>Hiển thị</th>
                         <th style="width:30px;"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($all_category_product as $key =>$cate_pro)
+                    @foreach($category_product as $key =>$cate_pro)
                     <tr>
                         <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                        <td>{{$cate_pro->category_name}}</td>
+                        <td>{{$cate_pro->post_title}}</td>
+                        <td><img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$cate_pro->post_image}}" height="100" width="100"></td>
+                        <td>{{$cate_pro->post_slug }}</td>
+                        <td>{{$cate_pro->post_desc}}</td>
+                        <td>{{$cate_pro->post_meta_keywords}}</td>
+                        <td>{{$cate_pro->cate_post_id}}</td>
                         <td>
-                            @if($cate_pro->category_parent==0)
-                                <span style="color: red">Danh mục cha</span>
+                            @if($cate_pro->post_status==0)
+                                Hiển thị
                             @else
-                                @foreach($category_product as $key2 =>$cate_sub_pro)
-                                   @if( $cate_sub_pro->category_id==$cate_pro->category_parent)
-                                            <span style="color: green">{{$cate_sub_pro->category_name}}</span>
-                                   @endif
-                                @endforeach
+                                Ẩn
                             @endif
                         </td>
-                        <td>{{$cate_pro->slug_category_product}}</td>
-                        <td><span >
-                                <?php
-                                    if($cate_pro->category_status==0)
-                                    {
-                                        ?>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/active-category-product/').'/'.$cate_pro->category_id}}"><span class="fa-thump-styling fa fa-thumbs-up" style="font-size:28px;color:green"></span></a>;
-                                <?php
-                                    }
-                                    else{
-                                        ?>
-                                        <a href="{{\Illuminate\Support\Facades\URL::to('/unactive-category-product/').'/'.$cate_pro->category_id}}"><span class="fa-thump-styling fa fa-thumbs-down" style="font-size:28px;color:red"></span></a>;
-                                <?php
-                                    }
-?>
-
-
-                            </span></td>
                         <td>
-                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-category-product/').'/'.$cate_pro->category_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
-                                <i class="fa fa-pencil-square-o text-success text-active"></i>
-                            </a>
-                            <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-category-product/').'/'.$cate_pro->category_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+{{--                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-post/').'/'.$cate_pro->post_id}}" style="font-size: 20px" class="active" ui-toggle-class="">--}}
+{{--                                <i class="fa fa-pencil-square-o text-success text-active"></i>--}}
+{{--                            </a>--}}
+                            <a onclick="return confirm('Are you sure to delete this writting?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-post/').'/'.$cate_pro->post_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                 <i class="fa fa-times text-danger text"></i></a>
                         </td>
                     </tr>
                     @endforeach
                     </tbody>
                 </table>
-{{--                import--}}
-{{--                <form action="{{\Illuminate\Support\Facades\URL::to('import-csv')}}" method="POST" enctype="multipart/form-data">--}}
-{{--                    @csrf--}}
-{{--                    <input type="file" name="file" accept=".xlsx"><br>--}}
-{{--                    <input type="submit" value="Import file Excel" name="import_csv" class="btn btn-warning">--}}
-{{--                </form>--}}
-{{--                export--}}
-{{--                <form action="{{\Illuminate\Support\Facades\URL::to('export-csv')}}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    <input type="submit" value="Export file Excel" name="export_csv" class="btn btn-success">--}}
-{{--                </form>--}}
-
             </div>
             <footer class="panel-footer">
                 <div class="row">

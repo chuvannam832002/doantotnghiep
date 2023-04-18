@@ -20,6 +20,9 @@ Route::post('/tim-kiem', 'App\Http\Controllers\HomeController@search');
 Route::get('/danhmucsanpham/{category_id}', 'App\Http\Controllers\CategoryProduct@show_category_home');
 Route::get('/thuonghieusanpham/{brand_id}', 'App\Http\Controllers\BrandProduct@show_brand_home');
 Route::get('/chitietsanpham/{product_id}', 'App\Http\Controllers\ProductController@detail_product');
+//bai viet
+Route::get('/danh-muc-bai-viet/{post_slug}', 'App\Http\Controllers\Post@danhmucbaiviet');
+Route::get('/bai-viet/{post_slug}', 'App\Http\Controllers\Post@baiviet');
 //order
 Route::post('/update-order-qty', 'App\Http\Controllers\OrderController@update_order_qty');
 Route::post('/update-qty', 'App\Http\Controllers\OrderController@update_qty');
@@ -114,3 +117,16 @@ Route::post('/export-csv', 'App\Http\Controllers\CategoryProduct@export_csv');
 //Authe register
 Route::get('/register-auth', 'App\Http\Controllers\AuthController@register_auth');
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
+//cate_post
+Route::get('/add-cate-post', 'App\Http\Controllers\CategoryPost@add_cate_post');
+Route::get('/all-cate-post', 'App\Http\Controllers\CategoryPost@all_cate_post');
+Route::get('/edit-category-post/{cate_post_id}', 'App\Http\Controllers\CategoryPost@edit_category_post');
+Route::post('/save-cate-post', 'App\Http\Controllers\CategoryPost@save_cate_post');
+Route::get('/delete-category-post/{cate_post_id}', 'App\Http\Controllers\CategoryPost@delete_cate_post');
+Route::post('/update-cate_post/{cate_post_id}', 'App\Http\Controllers\CategoryPost@update_cate_post');
+Route::post('/danh-muc-bai-viet/{cate_post_slug}', 'App\Http\Controllers\CategoryPost@danh_muc_bai_viet');
+//post
+Route::get('/add-post', 'App\Http\Controllers\Post@add_post');
+Route::post('/save-post', 'App\Http\Controllers\Post@save_post');
+Route::get('/all-post', 'App\Http\Controllers\Post@all_post');
+Route::get('/delete-post/{post_id}', 'App\Http\Controllers\Post@delete_post');

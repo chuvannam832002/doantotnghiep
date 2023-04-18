@@ -93,13 +93,15 @@ class CartController extends Controller
         $meta_desc = 'Giỏ hàng ajax';
         $meta_keywords = 'Giỏ hàng ajax';
         $meta_title = 'Giỏ hàng ajax';
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
+        $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
         $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
         $url_canonical = $request->url();
-        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
+        $cate_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         return view('pages.cart.cart_ajax')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
             ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-            ->with('slide',$slider);
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
     }
     public function delete_sp($session_id){
         $cart = Session::get('newcart');

@@ -127,6 +127,8 @@ class ProductController extends Controller
         {
             $category_id = $values->category_id;
         }
+        $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
         $meta_desc = '';
         $meta_keywords = '';
         $meta_title = '';
@@ -137,7 +139,8 @@ class ProductController extends Controller
 
         return view('pages.sanpham.detail_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
             ->with('product_details',$detail_product)->with('relate',$related_product)->with('meta_desc',$meta_desc)
-            ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slide',$slider);
+            ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slide',$slider)
+            ->with('cate_post',$cate_post)->with('category_product_pro',$category_product_pro);
     }
 
 }

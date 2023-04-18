@@ -31,8 +31,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Số lượng mã</label>
-                            <textarea style="resize: none" rows="8" class="form-control" name="coupon_times" id="exampleInputPassword1">
-                        </textarea>
+                            <textarea style="resize: none" rows="8" class="form-control" name="coupon_times" id="exampleInputPassword1"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Tính năng mã</label>
@@ -41,12 +40,10 @@
                                 <option value="1">Giảm theo phần trăm</option>
                                 <option value="2">Giảm theo tiền</option>
                             </select>
-                        </textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Nhập số % hoặc tiền giảm</label>
-                            <textarea style="resize: none" rows="8" class="form-control" name="coupon_number" id="exampleInputPassword1">
-                        </textarea>
+                            <textarea style="resize: none" rows="8" class="form-control" name="coupon_number" id="exampleInputPassword1"></textarea>
                         </div>
 
                         <button type="submit" name="add_coupon" class="btn btn-info">Thêm mã</button>

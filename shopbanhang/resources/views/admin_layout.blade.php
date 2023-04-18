@@ -324,6 +324,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li class="sub-menu">
                         <a href="javascript:;">
                             <i class="fa fa-book"></i>
+                            <span>Danh mục bài viết</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-cate-post')}}">Thêm danh mục bài viết</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/all-cate-post')}}">Liệt danh mục kê bài viết</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
                             <span>Thương hiệu sản phẩm</span>
                         </a>
                         <ul class="sub">
@@ -339,6 +349,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <ul class="sub">
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-product')}}">Thêm  sản phẩm</a></li>
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('/all-product')}}">Liệt kê sản phẩm</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Bài viết</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/add-post')}}">Thêm bài viết</a></li>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('/all-post')}}">Liệt kê bài viết</a></li>
                         </ul>
                     </li>
                 </ul>            </div>

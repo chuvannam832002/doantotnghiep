@@ -30,7 +30,6 @@
                                     <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
                                 @endforeach
                             </select>
-                            </textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Chọn quận huyện</label>
@@ -38,7 +37,6 @@
                                 <option value="0">----Chọn quận huyện----</option>
 
                             </select>
-                            </textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Chọn xã phường</label>
@@ -46,7 +44,6 @@
                                 <option value="0">----Chọn xã phường----</option>
 
                             </select>
-                            </textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Phí vận chuyển</label>

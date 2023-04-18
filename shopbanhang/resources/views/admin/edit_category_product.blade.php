@@ -32,16 +32,25 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả danh mục</label>
-                            <textarea style="resize: none" rows="5" class="form-control" name="category_product_desc" id="exampleInputPassword1">
-                      {{$edit_value->category_des}}
-                        </textarea>
+                            <textarea style="resize: none" rows="5" class="form-control" name="category_product_desc" id="exampleInputPassword1">{{$edit_value->category_des}}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Từ khóa danh mục</label>
-                            <textarea style="resize: none" rows="5" class="form-control" name="meta_keywords" id="exampleInputPassword1">
-                      {{$edit_value->meta_keywords}}
-                        </textarea>
+                            <textarea style="resize: none" rows="5" class="form-control" name="meta_keywords" id="exampleInputPassword1">{{$edit_value->meta_keywords}}</textarea>
                         </div>
+                        @if($edit_value->category_parent!=0)
+                            <div class="form-group">
+                                <label for="exampleInputFile">Thuộc danh mục</label>
+                                <select name="category_parent"  class="form-control input-lg m-bot15">
+                                    <option value="0">----Danh mục cha----</option>
+                                    @foreach($category_product as $key=>$value)
+
+                                        <option  value="{{$value->category_id}}">{{$value->category_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
                         <button type="submit" name="add_category_product" class="btn btn-info">Cập nhật danh mục</button>
                     </form>
                 </div>

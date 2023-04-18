@@ -31,8 +31,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả </label>
-                            <textarea style="resize: none" rows="8" class="form-control" name="slider_desc" id="exampleInputPassword1">
-                        </textarea>
+                            <textarea style="resize: none" rows="8" class="form-control" name="slider_desc" id="exampleInputPassword1"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Hiển thị</label>

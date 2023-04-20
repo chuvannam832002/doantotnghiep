@@ -34,10 +34,20 @@ class HomeController extends Controller
         echo $keywords;
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
-//        $all_product = DB::table('tbl_product')->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
-//            ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')->orderBy('tbl_product.category_id',"desc")->get();
+        $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
+        $meta_desc = "Chuyên bán những phụ kiện gym";
+        $meta_keywords = "Thực phẩm chức năng";
+        $meta_title = "Bổ sung năng lượng";
+        $url_canonical = $request->url();
+        //cate-post
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
+        $category_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
+        $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
         $all_product = DB::table('tbl_product')->where('product_status','0')->orderBy('product_id','desc')->get();
         $search_product =  DB::table('tbl_product')->where('product_name','like','%'.$keywords.'%')->get();
-        return view('pages.sanpham.search')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('product_search',$search_product);
+        return view('pages.sanpham.search')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('product_search',$search_product)
+            ->with('all_product',$all_product)
+            ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
     }
 }

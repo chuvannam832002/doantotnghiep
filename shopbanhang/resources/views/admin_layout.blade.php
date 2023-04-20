@@ -9,6 +9,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <title>Visitors an Admin Panel Category Bootstrap Responsive Website Template | Home :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="csrf_token" content="{{csrf_token()}}"/>
     <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -31,6 +32,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{asset('public/backend/js/jquery2.0.3.min.js')}}"></script>
     <script src="{{asset('public/backend/js/raphael-min.js')}}"></script>
     <script src="{{asset('public/backend/js/morris.js')}}"></script>
+    <script src="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"></script>
+
 </head>
 <body>
 <section id="container">
@@ -389,6 +392,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/jquery.dcjqaccordion.2.7.js')}}"></script>
 <script src="{{asset('public/backend/js/scripts.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
+<script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{asset('public/backend/js/flot-chart/excanvas.min.js')}}"></script><![endif]-->
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
@@ -543,6 +547,7 @@ fectch_delivery();
                 }
             })
         })
+            $('#myTable').DataTable();
             $('.choose').on('change',function () {
                 var action = $(this).attr('id');
                 var matp = $(this).val();
@@ -565,7 +570,102 @@ fectch_delivery();
                 })
             })
             fectch_delivery();
+            load_gallery();
+            function load_gallery(){
+               var pro_id= $('.pro_id').val();
+                var _token = $('input[name="_token"]').val();
 
+               $.ajax({
+                   url:"{{\Illuminate\Support\Facades\URL::to('/select-gallery')}}",
+                   method:'POST',
+                   data:{pro_id:pro_id,_token:_token},
+                   success: function (data) {
+                       $('#gallery_load').html(data);
+                   }
+               })
+
+            }
+            $('#file').change(function () {
+                var error =  '';
+                var file = $('#file')[0].files;
+                if(file.length>5){
+                    error+= '<p>Bạn chỉ được chọn tối đa 5 ảnh </p>'
+                }else
+                {
+                    if(file.length=='')
+                    {
+                        error+='<p>Bạn không được bỏ trống ảnh </p>'
+                    }else
+                    {
+                        if(file.size>2000000)
+                        {
+                            error+='<p>File ảnh không được lớn hơn 2MB </p>'
+                        }
+                    }
+                }
+                if(error=='')
+                {
+
+                }else {
+                    $("#file").val('');
+                    $('#error_gallery').html('<span class ="text-danger">'+error+'</span>');
+                    return false;
+                }
+            })
+            $(document).on('blur','.edit_gal_name',function () {
+                var gal_id = $(this).data('gal_id');
+                var gal_text = $(this).text();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url:"{{\Illuminate\Support\Facades\URL::to('/update-gallery-name')}}",
+                    method:'POST',
+                    data:{gal_id:gal_id,gal_text:gal_text,_token:_token},
+                    success: function () {
+                        load_gallery();
+                        $('#error_gallery').html('<span class ="text-danger">Cập nhật tên hình ảnh thành công</span>');
+                    }
+                })
+            })
+            $(document).on('click','.delete-gallery',function () {
+                var gal_id = $(this).data('gal_id');
+                var _token = $('input[name="_token"]').val();
+                if(confirm('Bạn có muốn xóa hình ảnh này không ?'))
+                {
+                    $.ajax({
+                        url:"{{\Illuminate\Support\Facades\URL::to('/delete-gallery')}}",
+                        method:'POST',
+                        data:{gal_id:gal_id,_token:_token},
+                        success: function () {
+                            load_gallery();
+                            $('#error_gallery').html('<span class ="text-danger">Xóa thư viện hình ảnh thành công</span>');
+                        }
+                    })
+                }
+
+            })
+            $(document).on('change','.file_image',function () {
+                var gal_id = $(this).data('gal_id');
+                var image = document.getElementById('file-'+gal_id).files[0];
+                var _token = $('input[name="_token"]').val();
+                var formData = new FormData();
+                formData.append("file",document.getElementById('file-'+gal_id).files[0]);
+                formData.append("gal_id",gal_id);
+                    $.ajax({
+                        url:"{{\Illuminate\Support\Facades\URL::to('/update-gallery')}}",
+                        method:'POST',
+                        data:formData,
+                        headers:{
+                            'X-CSRF-TOKEN':$('meta[name="csrf_token"]').attr('content')
+                        },
+                        contentType:false,
+                        cache:false,
+                        processData:false,
+                        success: function (data) {
+                            load_gallery();
+                            $('#error_gallery').html('<span class ="text-danger">Cập nhật hình ảnh thành công</span>');
+                        }
+                    })
+            })
     })
 </script>
 <!-- //calendar -->

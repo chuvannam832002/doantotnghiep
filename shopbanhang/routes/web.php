@@ -20,6 +20,9 @@ Route::post('/tim-kiem', 'App\Http\Controllers\HomeController@search');
 Route::get('/danhmucsanpham/{category_id}', 'App\Http\Controllers\CategoryProduct@show_category_home');
 Route::get('/thuonghieusanpham/{brand_id}', 'App\Http\Controllers\BrandProduct@show_brand_home');
 Route::get('/chitietsanpham/{product_id}', 'App\Http\Controllers\ProductController@detail_product');
+Route::post('/quickview', 'App\Http\Controllers\ProductController@quick_view');
+Route::post('/load-comment', 'App\Http\Controllers\ProductController@load_comment');
+Route::post('/send-comment', 'App\Http\Controllers\ProductController@send_comment');
 //bai viet
 Route::get('/danh-muc-bai-viet/{post_slug}', 'App\Http\Controllers\Post@danhmucbaiviet');
 Route::get('/bai-viet/{post_slug}', 'App\Http\Controllers\Post@baiviet');
@@ -130,3 +133,10 @@ Route::get('/add-post', 'App\Http\Controllers\Post@add_post');
 Route::post('/save-post', 'App\Http\Controllers\Post@save_post');
 Route::get('/all-post', 'App\Http\Controllers\Post@all_post');
 Route::get('/delete-post/{post_id}', 'App\Http\Controllers\Post@delete_post');
+//gallery
+Route::get('/add-gallery/{product_id}', 'App\Http\Controllers\GalleryController@add_gallery');
+Route::post('/select-gallery', 'App\Http\Controllers\GalleryController@select_gallery');
+Route::post('/insert-gallery/{pro_id}', 'App\Http\Controllers\GalleryController@insert_gallery');
+Route::post('/update-gallery-name', 'App\Http\Controllers\GalleryController@update_gallery_name');
+Route::post('/update-gallery', 'App\Http\Controllers\GalleryController@update_gallery');
+Route::post('/delete-gallery', 'App\Http\Controllers\GalleryController@delete_gallery');

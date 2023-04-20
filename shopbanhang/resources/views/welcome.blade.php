@@ -24,9 +24,13 @@
     <link href="{{asset('public/frontend/css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
+    <link href="{{asset('public/frontend/css/base.css')}}" rel="stylesheet">
+    <link href="{{asset('public/frontend/css/prettify.css')}}" rel="stylesheet">
+    <link href="{{asset('public/frontend/css/lightslider.min.css')}}" rel="stylesheet">
     <link href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="{{asset('public/frontend/js/html5shiv.js')}}"></script>
+
     <script src="{{asset('js/respond.min.js"')}}></script>
     <![endif]-->
     <link rel="shortcut icon" href="images/ico/favicon.ico">
@@ -35,7 +39,27 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
-
+<style>
+    /*.demo {*/
+    /*    width:450px;*/
+    /*}*/
+    /*ul {*/
+    /*    list-style: none outside none;*/
+    /*    padding-left: 0;*/
+    /*    margin-bottom:0;*/
+    /*}*/
+    /*li {*/
+    /*    display: block;*/
+    /*    float: left;*/
+    /*    margin-right: 6px;*/
+    /*    cursor:pointer;*/
+    /*}*/
+    img {
+        display: block;
+        height: auto;
+        max-width: 100%;
+    }
+</style>
 <body>
 <header id="header"><!--header-->
     <div class="header_top"><!--header_top-->
@@ -470,6 +494,9 @@
 <script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
 <script src="{{asset('public/frontend/js/price-range.js')}}"></script>
 <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
+<script src="{{asset('public/frontend/js/lightslider.js')}}"></script>
+<script src="{{asset('public/frontend/js/jquery.sharrre.min.js')}}"></script>
+<script src="{{asset('public/frontend/js/prettify.js')}}"></script>
 <script src="{{asset('public/frontend/js/main.js')}}"></script>
 <script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
 <script type="text/javascript">
@@ -596,6 +623,91 @@
                 }
             })
         })
+        $('#lightSlider').lightSlider({
+            gallery: true,
+            item: 1,
+            loop:true,
+            slideMargin: 0,
+            thumbItem: 6
+        });
+        $('.xemnhanh').click(function () {
+            var product_id = $(this).data('id_product');
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/quickview')}}',
+                method:'POST',
+                dataType:"JSON",
+                data:{product_id:product_id,_token:_token},
+                success:function (data) {
+                    $('#product_quickview_title').html(data.product_name);
+                    $('#product_quickview_id').html(data.product_id);
+                    $('#product_quickview_price').html(data.product_price);
+                    $('#product_quickview_image').html(data.product_image);
+                    $('#product_quickview_gallery').html(data.product_gallery);
+                    $('#product_quickview_desc').html(data.product_desc);
+                    $('#product_quickview_content').html(data.product_content);
+                    $('#product_quickview_value').html(data.product_quickview_value);
+                }
+            })
+        })
+        $(document).on('click','.add-to-cart-quickview',function () {
+            var id = $(this).data('id');
+            var cart_product_id = $('.cart_product_id_'+id).val();
+            var cart_product_name = $('.cart_product_name_'+id).val();
+            var cart_product_image = $('.cart_product_image_'+id).val();
+            var cart_product_quantity = $('.cart_product_quantity_'+id).val();
+            var cart_product_price = $('.cart_product_price_'+id).val();
+            var cart_product_qty = $('.cart_product_qty_'+id).val();
+            var _token = $('input[name="_token"]').val();
+            if(parseInt(cart_product_qty)>parseInt(cart_product_quantity))
+            {
+                alert("Hàng tồn kho không đủ , Vui lòng đặt lại");
+            }
+            else{
+                $.ajax({
+                    url: '{{url('/add-cart-ajax')}}',
+                    method: 'POST',
+                    data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price
+                        ,cart_product_qty:cart_product_qty,cart_product_quantity:cart_product_quantity,_token:_token},
+                    beforeSend:function () {
+                        $('#before_send').html("<p class='text text-primary'>Đang thêm sản phẩm vào giỏ hàng</p>");
+                    },
+                    success:function (){
+                        $('#before_send').html("<p class='text text-success'>Đã thêm sản phẩm vào giỏ hàng</p>");
+                        $('#byquickview').attr('disabled',true);
+                    }
+                })
+            }
+
+        })
+        function load_comment() {
+            var product_id = $('.comment_product_id').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/load-comment')}}',
+                method:'POST',
+                data:{product_id:product_id,_token:_token},
+                success:function (data) {
+                    $('#comment_show').html(data);
+                }
+            })
+        }
+        $('.send-comment').click(function () {
+            var product_id = $('.comment_product_id').val();
+            var comment_name = $('.comment_name').val();
+            var comment_content = $('.comment_content').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/send-comment')}}',
+                method:'POST',
+                data:{product_id:product_id,comment_name:comment_name,comment_content:comment_content,_token:_token},
+                success:function (data) {
+                 load_comment();
+                 $('#notify-comment').html("<p class='text text-success'>Thêm bình luận thành công</p>")
+                }
+            })
+        })
+        load_comment();
     })
 </script>
 <div id="fb-root"></div>

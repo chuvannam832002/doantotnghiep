@@ -94,11 +94,12 @@ class CategoryProduct extends Controller
             $meta_title = $val->category_name;
             $url_canonical = $request->url();
         }
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
             $cate_name = DB::table('tbl_category_product')->where('tbl_category_product.slug_category_product',$category_id)->limit(1)->get();
         return view('pages.category.show_category')->with('cate_product',$category_product)->with('brand_product',$brand_product)->with('category_by_id',$category_by_id)
             ->with('cate_name',$cate_name)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-            ->with('slide',$slider)->with('category_product_pro',$category_product_pro);
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
     }
     //import data
 //    public function export_csv(){

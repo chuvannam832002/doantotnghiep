@@ -6,27 +6,7 @@
                 Liệt kê  sản phẩm
             </div>
 
-            <div class="row w3-res-tb">
-                <div class="col-sm-5 m-b-xs">
-                    <select class="input-sm form-control w-sm inline v-middle">
-                        <option value="0">Bulk action</option>
-                        <option value="1">Delete selected</option>
-                        <option value="2">Bulk edit</option>
-                        <option value="3">Export</option>
-                    </select>
-                    <button class="btn btn-sm btn-default">Apply</button>
-                </div>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <input type="text" class="input-sm form-control" placeholder="Search">
-                        <span class="input-group-btn">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
-                    </div>
-                </div>
-            </div>
+
             <?php
             $message=\Illuminate\Support\Facades\Session::get('message');
             if($message)
@@ -41,7 +21,7 @@
             }
             ?>
             <div class="table-responsive">
-                <table class="table table-striped b-t b-light">
+                <table class="table table-striped b-t b-light" id="myTable">
                     <thead>
                     <tr>
                         <th style="width:20px;">
@@ -50,6 +30,7 @@
                             </label>
                         </th>
                         <th>Tên sản phẩm</th>
+                        <th>Thư viện ảnh</th>
                         <th>Số lượng</th>
                         <th>Giá</th>
                         <th>Hình sản phẩm</th>
@@ -63,6 +44,7 @@
                     @foreach($all_product as $key =>$cate_pro)
                     <tr>
                         <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+                        <td><a href="{{\Illuminate\Support\Facades\URL::to('/add-gallery').'/'.$cate_pro->product_id}}">Thêm thư viện ảnh</a> </td>
                         <td>{{$cate_pro->product_name}}</td>
                         <td>{{$cate_pro->product_quantity}}</td>
                         <td>{{$cate_pro->product_price}}</td>

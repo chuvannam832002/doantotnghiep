@@ -20,17 +20,15 @@
               @endif
 
                 <table class="table table-condensed">
-
                     <thead>
-
                     <tr class="cart_menu">
-                        <td class="image">Hình ảnh</td>
-                        <td class="description">Tên sản phẩm</td>
-                        <td class="description">Số lượng tồn</td>
-                        <td class="price">Giá</td>
-                        <td class="quantity">Số lượng</td>
-                        <td class="total">Tổng tiền</td>
-                        <td></td>
+                        <th class="image">Hình ảnh</th>
+                        <th class="description">Tên sản phẩm</th>
+                        <th class="description">Số lượng tồn</th>
+                        <th class="price">Giá</th>
+                        <th class="quantity">Số lượng</th>
+                        <th class="total">Tổng tiền</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,24 +37,22 @@
                     $total = 0;
                     @endphp
                     @if($data==true)
+                        <form action="{{\Illuminate\Support\Facades\URL::to('/update-cart')}}" method="post">
                         @foreach($data as $key=> $v_content)
                             @php
                             $subtotal = $v_content['product_price']*$v_content['product_qty'];
                             $total+=$subtotal;
                             @endphp
                             <tr>
-                                <form action="{{\Illuminate\Support\Facades\URL::to('/update-cart')}}" method="post">
                                     {{csrf_field()}}
                                     <td class="cart_product">
-                                        <a href=""><img src="{{asset('public/upload/product/'.$v_content['cart_product_image'])}}"
-                                                        width="100" height="100" alt=""></a>
+                                       <img src="{{asset('public/upload/product/'.$v_content['cart_product_image'])}}"
+                                                        width="120" height="120" alt="">
                                     </td>
                                     <td class="cart_description">
-                                        <h4><a href=""></a></h4>
                                         <p>{{$v_content['product_name']}}</p>
                                     </td>
                                     <td class="cart_description">
-                                        <h4><a href=""></a></h4>
                                         <p>{{$v_content['product_quantity']}}</p>
                                     </td>
                                     <td class="cart_price">
@@ -77,28 +73,27 @@
                                     <td class="cart_delete">
                                         <a class="cart_quantity_delete" href="{{\Illuminate\Support\Facades\URL::to('/delete-sp').'/'.$v_content['session_id']}}"><i class="fa fa-times"></i></a>
                                     </td>
-                                </form>
                             </tr>
                         @endforeach
                             <tr>
                                 <td>
-                                    <input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-default check_out">
+                                    <input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-primary check_out">
                                 </td>
                                 <td>
-                                    <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/checkout')}}">Thanh toán</a>
+                                    <a class="btn btn-primary check_out" href="{{\Illuminate\Support\Facades\URL::to('/checkout')}}">Thanh toán</a>
                                 </td>
 
                                 <td>
-                                    <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/del-all-product')}}">Xóa tất cả</a>
+                                    <a class="btn btn-primary check_out" href="{{\Illuminate\Support\Facades\URL::to('/del-all-product')}}">Xóa tất cả</a>
 
                                 </td>
                                 @if(\Illuminate\Support\Facades\Session::get('coupon'))
                                     <td>
-                                        <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/del-all-coupon')}}">Xóa mã khuyến mãi</a>
+                                        <a class="btn btn-primary check_out" href="{{\Illuminate\Support\Facades\URL::to('/del-all-coupon')}}">Xóa mã khuyến mãi</a>
                                     </td>
                                 @endif
                                 <td>
-                                    <a class="btn btn-default check_out" href="{{\Illuminate\Support\Facades\URL::to('/checkout')}}">Đặt hàng</a>
+                                    <a class="btn btn-primary check_out" href="{{\Illuminate\Support\Facades\URL::to('/checkout')}}">Đặt hàng</a>
                                 </td>
                                 <td>
                                         <li>Tổng tiền: <span>{{$total}}</span></li>
@@ -133,12 +128,14 @@
 {{--                                        <li>Phí vận chuyển: <span>Free</span></li>--}}
                                 </td>
                             </tr>
+                        </form>
+
                             <tr>
                                 <td colspan="5">
                                     <form method="post" action="{{\Illuminate\Support\Facades\URL::to('/check-coupon')}}">
                                         {{csrf_field()}}
                                         <input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá">
-                                        <input type="submit" name="check_coupon" value="Tính mã giảm giá" class="btn btn-default check_coupon">
+                                        <input type="submit" name="check_coupon" value="Tính mã giảm giá" class="btn btn-primary check_coupon">
                                     </form>
                                 </td>
                             </tr>
@@ -157,19 +154,5 @@
             </div>
         </div>
     </section> <!--/#cart_items-->
-    <section id="do_action">
-        <div class="container">
-            <div class="heading">
-                <h3>What would you like to do next?</h3>
-                <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-            </div>
-            <div class="row">
 
-                <div class="col-sm-6">
-                    <div class="total_area">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!--/#do_action-->
 @endsection

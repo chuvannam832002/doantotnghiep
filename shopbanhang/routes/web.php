@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/trang-chu', 'App\Http\Controllers\HomeController@index');
 Route::post('/tim-kiem', 'App\Http\Controllers\HomeController@search');
+Route::get('/lien-he', 'App\Http\Controllers\ContactController@lien_he');
 //Danh muc san pham trang chu
 Route::get('/danhmucsanpham/{category_id}', 'App\Http\Controllers\CategoryProduct@show_category_home');
 Route::get('/thuonghieusanpham/{brand_id}', 'App\Http\Controllers\BrandProduct@show_brand_home');
@@ -23,6 +24,8 @@ Route::get('/chitietsanpham/{product_id}', 'App\Http\Controllers\ProductControll
 Route::post('/quickview', 'App\Http\Controllers\ProductController@quick_view');
 Route::post('/load-comment', 'App\Http\Controllers\ProductController@load_comment');
 Route::post('/send-comment', 'App\Http\Controllers\ProductController@send_comment');
+Route::post('/insert-rating', 'App\Http\Controllers\ProductController@insert_rating');
+Route::post('/product-tab', 'App\Http\Controllers\ProductController@product_tab');
 //bai viet
 Route::get('/danh-muc-bai-viet/{post_slug}', 'App\Http\Controllers\Post@danhmucbaiviet');
 Route::get('/bai-viet/{post_slug}', 'App\Http\Controllers\Post@baiviet');

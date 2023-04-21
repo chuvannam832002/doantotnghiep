@@ -197,7 +197,7 @@
                                 </ul>
                             </li>
                             <li><a href="404.html">Giỏ hàng</a></li>
-                            <li><a href="contact-us.html">Liên hệ</a></li>
+                            <li><a href="{{url('/lien-he')}}">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -306,6 +306,13 @@
                         </div>
                     </div><!--/brands_products-->
 
+                    <div class="brands_products">
+                        <h2>Sản phẩm yêu thích</h2>
+                        <div class="brands-name">
+                            <div id="row_wishlist">
+                            </div>
+                        </div>
+                    </div>
 {{--                    <div class="price-range"><!--price-range-->--}}
 {{--                        <h2>Price Range</h2>--}}
 {{--                        <div class="well text-center">--}}
@@ -317,13 +324,34 @@
                     <div class="shipping text-center"><!--shipping-->
                         <img src="public/frontend/images/shipping.jpg" alt="" />
                     </div><!--/shipping-->
-
                 </div>
             </div>
-
+{{--            <div class="row">--}}
+{{--                <label for="amount">Sắp xếp theo</label>--}}
+{{--                <form>--}}
+{{--                    @csrf--}}
+{{--                    <select name="sort" id="sort" class="form-control">--}}
+{{--                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=none">--Lọc theo--</option>--}}
+{{--                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=tang_dan">--Giá tăng dần--</option>--}}
+{{--                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=giam_dan">--Giá giảm dần--</option>--}}
+{{--                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_az">Lọc theo tên từ A đến Z</option>--}}
+{{--                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_za">Lọc theo tên từ Z đến A</option>--}}
+{{--                    </select>--}}
+{{--                </form>--}}
+{{--            </div>--}}
             <div class="col-sm-9 padding-right">
+                                <label for="amount">Sắp xếp theo</label>
+                                <form>
+                                    @csrf
+                                    <select name="sort" id="sort" class="form-control">
+                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=none">--Lọc theo--</option>
+                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=tang_dan">--Giá tăng dần--</option>
+                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=giam_dan">--Giá giảm dần--</option>
+                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_az">Lọc theo tên từ A đến Z</option>
+                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_za">Lọc theo tên từ Z đến A</option>
+                                    </select>
+                                </form>
                 @yield('content')
-
             </div>
         </div>
     </div>
@@ -708,6 +736,148 @@
             })
         })
         load_comment();
+        function remove_background(product_id) {
+            for(var count = 1;count<=5;count++)
+            {
+                $('#'+product_id+'-'+count).css('color','#ccc');
+            }
+        }
+        $(document).on('mouseleave','.rating',function () {
+            var index = $(this).data("index");
+            var product_id = $(this).data('product_id');
+            var rating = $(this).data("rating");
+            // for(var count = 1;count<=5;count++)
+            // {
+            //     $('#'+product_id+'-'+count).css('color','#ccc');
+            // }
+            for(var count =1 ; count<=index;count++)
+            {
+                $('#'+product_id+'-'+count).css('color','#ffcc00');
+            }
+        })
+        $(document).on('mouseenter','.rating',function () {
+            var index = $(this).data("index");
+            var product_id = $(this).data('product_id');
+            var rating = $(this).data("rating");
+            for(var count = 1;count<=5;count++)
+            {
+                $('#'+product_id+'-'+count).css('color','#ccc');
+            }
+            for(var count =1 ; count<=index;count++)
+            {
+                $('#'+product_id+'-'+count).css('color','#ffcc00');
+            }
+        })
+        $(document).on('click','.rating',function () {
+            var index = $(this).data("index");
+            var product_id = $(this).data('product_id');
+            var _token = $('input[name="_token"]').val();
+            var id=0;
+            <?php
+                $check_id = \Illuminate\Support\Facades\Session::get('customer_id');
+                if($check_id)
+                {
+                    ?>
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/insert-rating')}}',
+                method:'POST',
+                data:{product_id:product_id,index:index,_token:_token},
+                success:function (data) {
+                    if(data=='done')
+                    {
+                        swal("Thông báo", "Bạn đã đánh giá "+index+" trên 5 * sản phẩm này !", "success");
+                    }
+                    else{
+                        swal("Thông báo", "Bạn đã đánh giá sản phẩm này !", "error");
+                    }
+                }
+            })
+            <?php
+                }
+                else{
+                    ?>
+                 swal("Thông báo", "Bạn cần đăng nhập để đánh giá", "error");
+            swal({
+                    title: "Thông báo",
+                    text: "Bạn cần đăng nhập để đánh giá!",
+                    type: "warning",
+                    confirmButtonClass: "btn-danger",
+                    cancelButtonText: "Ok",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "{{url('/checkout')}}";
+                    }
+                });
+            <?php
+
+                }
+                ?>
+
+        })
+        $('.tabs_pro').click(function () {
+            var cate_id = $(this).data('id');
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/product-tab')}}',
+                method:'POST',
+                data:{cate_id:cate_id,_token:_token},
+                success:function (data) {
+                    $('#tabs_product').html(data);
+                }
+            })
+        })
+        function view() {
+            if(localStorage.getItem('data')!=null)
+            {
+                var data = JSON.parse(localStorage.getItem('data'));
+                data.reverse();
+                document.getElementById('row_wishlist').style.overflow='scroll';
+                document.getElementById('row_wishlist').style.height='600px';
+                for(var i=0;i<data.length;i++)
+                {
+                    var name = data[i].name;
+                    var id = data[i].id;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $('#row_wishlist').append('<div class="row"><div class="col-md-4"><img width="100%" src="'+image+'"></div>' +
+                        '<div class="col-md-8"><p>'+name+'</p><p style="color: #FE980F">'+price+' VNĐ</p>' +
+                        '<a href="'+url+'">Đặt hàng</a><p><a data-id="'+id+'"class="btn btn-danger btn-xs delete_wishlist" >Xóa yêu thích</a></p></div>')
+                }
+            }
+        }
+        view();
+        $(document).on('click','.delete_wishlist',function(event){
+            event.preventDefault(); // những hành động mặc định của sự kiện sẽ k xảy ra
+            var id = $(this).data('id');
+
+            // console.log(localStorage.getItem('data'));
+            if (localStorage.getItem('data') != null) {
+                var data = JSON.parse(localStorage.getItem('data'));
+                if (data.length) {
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].id == id) {
+                            // alert(data[i].name);
+                            data.splice(i,1); //xóa phần tử khỏi mảng, tham số thứ 2 là 1 phần tử
+                        }
+                    }
+                }
+                localStorage.setItem('data',JSON.stringify(data));  //chuyển obj->string
+                alert('Xóa yêu thích thành công');
+                window.location.reload();
+            }
+        });
+        $('#sort').on('change',function () {
+            var url = $(this).val();
+            if(url)
+            {
+                window.location=url;
+            }
+            return false;
+        })
     })
 </script>
 <div id="fb-root"></div>

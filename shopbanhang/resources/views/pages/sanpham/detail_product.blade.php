@@ -96,6 +96,39 @@
                         </form>
                         <p><b>Viết đánh giá của bạn</b></p>
 
+                        <ul class="list-inline rating" title="Average Rating">
+                            @if($rating!='0')
+                                @for($count=1;$count<=5;$count++)
+                                    @php
+
+                                        if($count<=$rating)
+                                            {
+                                                $color = 'color:#ffcc00;';
+                                            }
+                                        else{
+                                            $color = 'color:#ccc;';
+                                        }
+                                    @endphp
+                                    <li title="Đánh giá sao"
+                                        id="{{$pro->product_id}}-{{$count}}"
+                                        data-index="{{$count}}" data-product_id="{{$pro->product_id}}"
+                                        data-rating="{{$rating}}" class="rating" style="cursor:pointer;{{$color}}
+                            font-size: 30px;">&#9733;
+                                    </li>
+                                @endfor
+                            @else
+                                @for($count=1;$count<=5;$count++)
+                                    <li title="Đánh giá sao"
+                                        id="{{$pro->product_id}}-{{$count}}"
+                                        data-index="{{$count}}" data-product_id="{{$pro->product_id}}"
+                                        data-rating="{{$rating}}" class="rating" style="cursor:pointer;color:#ccc;
+                            font-size: 30px;">&#9733;
+                                    </li>
+                                @endfor
+                            @endif
+
+
+                        </ul>
                         <form action="#">
                             @csrf
 										<span>
@@ -103,7 +136,6 @@
 											<input style="width: 100%;margin-left: 0px" type="text" class="comment_name" placeholder="Tên"/>
 										</span>
                             <textarea name="comment" class="comment_content" placeholder="Nội dung"></textarea>
-                            <b>Đánh giá sao: </b> <img src="{{\Illuminate\Support\Facades\URL::to('/public/frontend/images/rating.png')}}" alt="" />
                             <button type="button" class="btn btn-default pull-right send-comment">
                                 Gửi bình luận
                             </button>

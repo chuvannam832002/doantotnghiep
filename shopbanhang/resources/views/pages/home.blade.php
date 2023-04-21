@@ -1,5 +1,21 @@
 @extends('welcome')
 @section('content')
+    <div class="category-tab"><!--category-tab-->
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                @php
+                $i=0;
+                @endphp
+                @foreach($category_pro_tab as $key=>$value)
+                    <li class="tabs_pro " data-id="{{$value->category_id}}"><a href="#tshirt" data-toggle="tab">{{$value->category_name}}</a></li>
+                    @php
+                    $i++;
+                    @endphp
+                @endforeach
+            </ul>
+        </div>
+        <div id="tabs_product"></div>
+    </div><!--/category-tab-->
 <div class="features_items"><!--features_items-->
     <h2 class="title text-center">Sản phẩm mới nhất</h2>
     @foreach($all_product as $key=>$pro)
@@ -12,10 +28,12 @@
                         <input type="hidden" value="{{$pro->product_id}}" class="cart_product_id_{{$pro->product_id}}">
                         <input type="hidden" value="{{$pro->product_name}}" class="cart_product_name_{{$pro->product_id}}">
                         <input type="hidden" value="{{$pro->product_image}}" class="cart_product_image_{{$pro->product_id}}">
+                        <input type="hidden" value="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" class="product_image_{{$pro->product_id}}">
+                        <input type="hidden" value="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}" class="product_url_{{$pro->product_id}}">
                         <input type="hidden"  class="cart_product_quantity_{{$pro->product_id}}" value="{{$pro->product_quantity}}" />
                         <input type="hidden" value="{{$pro->product_price}}" class="cart_product_price_{{$pro->product_id}}">
                         <input type="hidden" value="1" class="cart_product_qty_{{$pro->product_id}}">
-                        <a href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
+                        <a id="cart_product_url_{{$pro->product_id}}" href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
                     <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" width="200" height="260" alt="" />
                     <h2>{{number_format($pro->product_price).'VNĐ'}}</h2>
                     <p>{{$pro->product_name}}</p>
@@ -29,7 +47,34 @@
             </div>
             <div class="choose">
                 <ul class="nav nav-pills nav-justified">
-                    <li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
+                    <style type="text/css">
+                        ul.nav.nav-pills.nav-justified li {
+                            text-align: center;
+                            font-size: 13px;
+                        }
+                        .button-wishlist{
+                            border: none;
+                            background: #ffff;
+                            color: #B3AFA8;
+                        }
+                        ul.nav.nav-pills.nav-justified i {
+                            color: #B3AFA8;
+                        }
+                        .button-wishlist span:hover{
+                            color: #FE980F;
+                        }
+                        .button-wishlist:focus{
+                            border: none;
+                            outline: none;
+                        }
+                    </style>
+                    <li>
+                        <i class="fa fa-plus-square"></i>
+                        <button class="button-wishlist" id="{{$pro->product_id}}" onclick="add_wistlist(this.id);">
+                            <span>
+                                Yêu thích
+                            </span>
+                        </button></li>
                     <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
                 </ul>
             </div>
@@ -104,6 +149,43 @@
     @endforeach
 
 </div><!--features_items-->
+<script type="text/javascript">
 
+    function add_wistlist(clicked_id) {
+        var id = clicked_id;
+        var name = $('.cart_product_name_'+id).val();
+        var image = $('.product_image_'+id).val();
+        var url = $('.product_url_'+id).val();
+        var price = $('.cart_product_price_'+id).val();
+        var  newItem = {
+            'url':url,
+            'name':name,
+            'price':price,
+            'id':id,
+            'image':image,
+        }
+        if(localStorage.getItem('data')==null)
+        {
+            localStorage.setItem('data','[]');
+        }
+        var olddata = JSON.parse(localStorage.getItem('data'));
+        var matches = $.grep(olddata,function (obj) {
+            return obj.id == id;
+        })
+        if(matches.length)
+        {
+            swal("Thông báo", "Sản phẩm bạn đã yêu thích , không thể thêm", "error");
+        }
+        else{
+            alert('Sản phẩm đã được thêm vào yêu thích ');
+            olddata.push(newItem);
+            localStorage.setItem('data',JSON.stringify(olddata));
+            window.location.reload();
+        }
+
+    }
+
+
+</script>
 
 @endsection

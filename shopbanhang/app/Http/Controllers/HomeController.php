@@ -22,12 +22,13 @@ class HomeController extends Controller
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         $category_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $category_pro_tab = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','asc')->get();
 //        $all_product = DB::table('tbl_product')->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
 //            ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')->orderBy('tbl_product.category_id',"desc")->get();
               $all_product = DB::table('tbl_product')->where('product_status','0')->orderBy('product_id','desc')->get();
         return view('pages.home')->with('cate_product',$category_product)->with('brand_product',$brand_product)->with('all_product',$all_product)
             ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)->with('category_pro_tab',$category_pro_tab);
     }
     public function search(Request $request){
         $keywords = $request->keywords_submit;

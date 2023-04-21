@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Gallery;
 use App\Models\Product;
+use App\Models\Rating;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class ProductController extends Controller
 {
@@ -157,12 +159,13 @@ class ProductController extends Controller
         $related_product = DB::table('tbl_product')->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
             ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')->where('tbl_product.category_id',$category_id)
             ->whereNotIn('tbl_product.product_id',[$product_id])->get();
-
+        $rating = Rating::where('product_id',$product_id)->avg('rating');
+        $rating = round($rating);
         return view('pages.sanpham.detail_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
             ->with('product_details',$detail_product)->with('relate',$related_product)->with('meta_desc',$meta_desc)
             ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slide',$slider)
             ->with('cate_post',$cate_post)->with('category_product_pro',$category_product_pro)->with('all_product',$all_product)->with('category_name',$category_cate)
-            ->with('gallery',$gallery)->with('category_id',$category_slug);
+            ->with('gallery',$gallery)->with('category_id',$category_slug)->with('rating',$rating);
     }
     public function quick_view(Request $request){
         $product_id = $request->product_id;
@@ -214,6 +217,75 @@ class ProductController extends Controller
         $comment->comment = $comment_content;
         $comment->comment_product_id = $product_id;
         $comment->save();
+    }
+    public function insert_rating(Request $request){
+        $data = $request->all();
+        $customer_id = Session::get('customer_id');
+        if($customer_id)
+        {
+            $rating_check = Rating::where('customer_id',$customer_id)->where('product_id',$data['product_id'])->first();
+//            echo $rating_check;
+            if($rating_check)
+            {
+                echo '';
+            }
+            else{
+                $rating = new Rating();
+                $rating->product_id = $data['product_id'];
+                $rating->rating = $data['index'];
+                $rating->customer_id = $customer_id;
+                $rating->save();
+                echo 'done';
+            }
+
+        }
+        else{
+            echo '';
+        }
+
+    }
+    public function product_tab(Request $request)
+    {
+        $data = $request->all();
+        $output = '';
+        $product = Product::where('category_id',$data['cate_id'])->orderby('product_id','desc')->get();
+        $product_count = $product->count();
+        if($product_count>0)
+        {
+            $output.=' <div class="tab-content">
+            <div class="tab-pane fade active in" id="tshirt" >';
+            foreach ($product as $key=> $val)
+            {
+                $output.='
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="'.\url('/public/upload/product/').'/'.$val->product_image.'" width="120" height="120" alt="" />
+                                <h2>'.number_format($val->product_price,0,',','.').'VND</h2>
+                                <p>'.$val->product_name.'</p>
+                                <a href="'.\url('chitietsanpham').'/'.$val->product_id.'" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Xem chi tiết</a>
+                            </div>
+
+                        </div>
+                </div>
+
+                    </div>';
+            }
+
+            $output.='
+        </div>';
+        }
+        else{
+            $output.=' <div class="tab-content">
+            <div class="tab-pane fade active in" id="tshirt" >
+                <div class="col-sm-12"><p style="color: red;text-align: center">
+                   Hiện chưa có sản phẩm trong danh mục này
+</p>
+                </div>
+        </div>';
+        }
+        echo $output;
     }
 
 }

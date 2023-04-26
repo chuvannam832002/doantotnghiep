@@ -4,6 +4,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-1">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">
+                            {{session()->get('message')}}
+                        </div>
+                    @elseif(session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{session()->get('error')}}
+                        </div>
+                    @endif
                     <div class="login-form"><!--login form-->
                         <h2>Đăng nhập</h2>
                         <form action="{{\Illuminate\Support\Facades\URL::to('/login-customer')}}" method="post">
@@ -13,6 +22,11 @@
                             <span>
 								<input type="checkbox" class="checkbox">
 								Ghi nhớ đăng nhập
+							</span>
+                            <span style="margin-left: 130px">
+							<a href="{{url('/forget-pass')}}">
+								Quên mật khẩu
+                            </a>
 							</span>
                             <button type="submit" class="btn btn-default">Đăng nhập</button>
                         </form>

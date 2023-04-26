@@ -23,15 +23,23 @@
                         {{csrf_field()}}
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên mã giảm giá</label>
-                            <input type="text" name="coupon_name" class="form-control" id="exampleInputEmail1" >
+                            <input type="text" required name="coupon_name" class="form-control" id="exampleInputEmail1" >
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tên ngày phát mã</label>
+                            <input type="date" required name="coupon_date_start" class="form-control" id="datepickerstart" >
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tên ngày hết hạn</label>
+                            <input type="date" required name="coupon_date_end" class="form-control" id="datepickerend" >
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Mã giảm giá</label>
-                            <input type="text" name="coupon_code" class="form-control" id="exampleInputEmail1" >
+                            <input type="text" required name="coupon_code" class="form-control" id="exampleInputEmail1" >
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Số lượng mã</label>
-                            <textarea style="resize: none" rows="8" class="form-control" name="coupon_times" id="exampleInputPassword1"></textarea>
+                            <input type="number" min="1" value="1" style="resize: none" required rows="8" class="form-control" name="coupon_times" id="exampleInputPassword1"></input>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Tính năng mã</label>
@@ -45,7 +53,6 @@
                             <label for="exampleInputPassword1">Nhập số % hoặc tiền giảm</label>
                             <textarea style="resize: none" rows="8" class="form-control" name="coupon_number" id="exampleInputPassword1"></textarea>
                         </div>
-
                         <button type="submit" name="add_coupon" class="btn btn-info">Thêm mã</button>
                     </form>
                 </div>
@@ -54,4 +61,7 @@
         </section>
 
     </div>
+    <script type="text/javascript">
+
+    </script>
 @endsection

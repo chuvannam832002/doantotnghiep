@@ -26,6 +26,8 @@
     <link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/base.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/prettify.css')}}" rel="stylesheet">
+    <link href="{{asset('public/frontend/css/owl.carousel.min.css')}}" rel="stylesheet">
+    <link href="{{asset('public/frontend/css/owl.theme.default.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/lightslider.min.css')}}" rel="stylesheet">
     <link href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -40,6 +42,26 @@
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 <style>
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+    }
+
+    .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+    }
+
+    .pagination a:hover:not(.active) {background-color: #ddd;}
     /*.demo {*/
     /*    width:450px;*/
     /*}*/
@@ -93,36 +115,12 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="public/frontend/images/logo.png" alt="" /></a>
-                    </div>
-                    <div class="btn-group pull-right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                USA
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Canada</a></li>
-                                <li><a href="#">UK</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                DOLLAR
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Canadian Dollar</a></li>
-                                <li><a href="#">Pound</a></li>
-                            </ul>
-                        </div>
+                        <a href="{{url('/')}}"><img src="public/frontend/images/lunar.jpg" style="width: 220px;height: 140px" alt="" /></a>
                     </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{\Illuminate\Support\Facades\URL::to('login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
                             <li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
                             <?php
                             $customer_id = \Illuminate\Support\Facades\Session::get('customer_id');
@@ -143,11 +141,30 @@
                             <?php
                             }
                             ?>
-                            <li><a href="{{\Illuminate\Support\Facades\URL::to('gio-hang')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+{{--                            @if(\Illuminate\Support\Facades\Session::get('number')==null)--}}
+{{--                            @endif--}}
+                            <?php
+                            $a = \Illuminate\Support\Facades\Session::get('number');
+                            if(\Illuminate\Support\Facades\Session::get('number')>0)
+                            {
+                                ?>
+                            <li id="count_cart"></li>
+                                <?php
+
+                            }
+                            else{
+                                ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('gio-hang')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng
+                                    <span class="badges" style="background: red;padding: 5px;border-radius: 10px;font-size: 14px;
+                                                            font-weight: bold;color: #fff">0</span></a></li>
+                                <?php
+                            }
+                            ?>
                             <?php
                             if($customer_id!=NULL)
                             {
                             ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('history')}}"><i class="fa fa-history"></i> Lịch sử giao hàng</a></li>
                             <li><a href="{{\Illuminate\Support\Facades\URL::to('logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
                             <?php
                                 }else{
@@ -196,7 +213,23 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a href="404.html">Giỏ hàng</a></li>
+                            <?php
+                            $a = \Illuminate\Support\Facades\Session::get('number');
+                            if(\Illuminate\Support\Facades\Session::get('number')>0)
+                            {
+                                ?>
+                            <li id="count_cart"></li>
+                                <?php
+
+                            }
+                            else{
+                                ?>
+                            <li><a href="{{\Illuminate\Support\Facades\URL::to('gio-hang')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng
+                                    <span class="badges" style="background: red;padding: 5px;border-radius: 10px;font-size: 14px;
+                                                            font-weight: bold;color: #fff">0</span></a></li>
+                                <?php
+                            }
+                            ?>
                             <li><a href="{{url('/lien-he')}}">Liên hệ</a></li>
                         </ul>
                     </div>
@@ -305,7 +338,13 @@
                             </ul>
                         </div>
                     </div><!--/brands_products-->
-
+                    <div class="brands_products">
+                        <h2>Sản phẩm đã xem</h2>
+                        <div class="brands-name">
+                            <div id="row_wishlist2">
+                            </div>
+                        </div>
+                    </div>
                     <div class="brands_products">
                         <h2>Sản phẩm yêu thích</h2>
                         <div class="brands-name">
@@ -340,22 +379,68 @@
 {{--                </form>--}}
 {{--            </div>--}}
             <div class="col-sm-9 padding-right">
-                                <label for="amount">Sắp xếp theo</label>
-                                <form>
-                                    @csrf
-                                    <select name="sort" id="sort" class="form-control">
-                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=none">--Lọc theo--</option>
-                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=tang_dan">--Giá tăng dần--</option>
-                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=giam_dan">--Giá giảm dần--</option>
-                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_az">Lọc theo tên từ A đến Z</option>
-                                        <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_za">Lọc theo tên từ Z đến A</option>
-                                    </select>
-                                </form>
+                @if($check == true)
+                    <label for="amount">Sắp xếp theo</label>
+                    <form>
+                        @csrf
+                        <select name="sort" id="sort" class="form-control">
+                            <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=none">--Lọc theo--</option>
+                            <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=tang_dan">--Giá tăng dần--</option>
+                            <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=giam_dan">--Giá giảm dần--</option>
+                            <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_az">Lọc theo tên từ A đến Z</option>
+                            <option value="{{\Illuminate\Support\Facades\Request::url()}}?sort_by=kytu_za">Lọc theo tên từ Z đến A</option>
+                        </select>
+                    </form>
+                @endif
+
                 @yield('content')
+                    <?php
+                    $page = \Illuminate\Support\Facades\Session::get('page_number');
+                    $total_pages = isset($_GET['page_number']);
+                    $num_results_on_page=5;
+                        ?>
+                    @if($giatri != 0)
+                        <div class="pagination">
+                            <a href="#">&laquo;</a>
+                                <?php
+                                $count=0;
+                                $page_number = \Illuminate\Support\Facades\Session::get('page_number');
+                                if(isset($_GET  ['pages']))
+                                {
+                                    $giatri = $_GET['pages'];
+
+                                }
+                            for($i=0;$i<$page_number;$i++)
+                            {
+                                $count++;
+                                ?>
+                            <a class="{{$giatri==$count?'active':''}}" href="{{\Illuminate\Support\Facades\Request::url()}}?pages=<?php echo $count?>">{{$count}}</a>
+                                <?php
+                            }
+                                ?>
+                            {{--                        <a href="#" class="active">2</a>--}}
+                            <a href="#">&raquo;</a>
+                        </div>
+                    @endif
+
+
             </div>
+                <div class="col-md-12">
+                    <h3>Đối tác của chúng tôi</h3>
+                    <div class="owl-carousel owl-theme">
+                        @foreach($partner as $item =>$part)
+                            <div class="item">
+                                <p><img src="{{url('/public/upload/product/').'/'.$part->image}}" width="100%"> </p>
+                                <h4>{{$part->name}}</h4></div>
+
+                        @endforeach
+
+                    </div>
+                </div>
         </div>
     </div>
 </section>
+
 
 <footer id="footer"><!--Footer-->
     <div class="footer-top">
@@ -363,70 +448,14 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div class="companyinfo">
-                        <h2><span>e</span>-shopper</h2>
+                        <img src="{{url('public/upload/product/326920267_930583068308564_7390932668560296925_n38.jpg')}}" width="120px" height="120px">
+                        <h2><span>Gia linh kids</span>-shopper</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
                     </div>
                 </div>
                 <div class="col-sm-7">
-                    <div class="col-sm-3">
-                        <div class="video-gallery text-center">
-                            <a href="#">
-                                <div class="iframe-img">
-                                    <img src="public/frontend/images/iframe1.png" alt="" />
-                                </div>
-                                <div class="overlay-icon">
-                                    <i class="fa fa-play-circle-o"></i>
-                                </div>
-                            </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-3">
-                        <div class="video-gallery text-center">
-                            <a href="#">
-                                <div class="iframe-img">
-                                    <img src="public/frontend/images/iframe2.png" alt="" />
-                                </div>
-                                <div class="overlay-icon">
-                                    <i class="fa fa-play-circle-o"></i>
-                                </div>
-                            </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-3">
-                        <div class="video-gallery text-center">
-                            <a href="#">
-                                <div class="iframe-img">
-                                    <img src="public/frontend/images/iframe3.png" alt="" />
-                                </div>
-                                <div class="overlay-icon">
-                                    <i class="fa fa-play-circle-o"></i>
-                                </div>
-                            </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="video-gallery text-center">
-                            <a href="#">
-                                <div class="iframe-img">
-                                    <img src="public/frontend/images/iframe4.png" alt="" />
-                                </div>
-                                <div class="overlay-icon">
-                                    <i class="fa fa-play-circle-o"></i>
-                                </div>
-                            </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="address">
@@ -443,62 +472,36 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div class="single-widget">
-                        <h2>Service</h2>
+                        <h2>Dịch vụ</h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#">Online Help</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Order Status</a></li>
-                            <li><a href="#">Change Location</a></li>
-                            <li><a href="#">FAQ’s</a></li>
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Hướng dẫn thanh toán</a></li>
+                            <li><a href="#">Quy định đối tác</a></li>
+                            <li><a href="#">Điều khoản dịch vụ</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="single-widget">
-                        <h2>Quock Shop</h2>
+                        <h2>Thông tin shop</h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#">T-Shirt</a></li>
-                            <li><a href="#">Mens</a></li>
-                            <li><a href="#">Womens</a></li>
-                            <li><a href="#">Gift Cards</a></li>
-                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">Địa chỉ: Trường Cao Đẳng Công nghệ Cao Hà Nội</a></li>
+                            <li><a href="#">SĐT: 0912701259</a></li>
+                            <li><a href="#">Email liên hệ: chuvannam832002@gmail.com</a></li>
+                            <li><a href="https://www.facebook.com/chuvan.nam.56232">Facebook liên hệ: chuvannam@facebook.com</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="single-widget">
-                        <h2>Policies</h2>
+                        <h2>Fanpage</h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#">Terms of Use</a></li>
-                            <li><a href="#">Privecy Policy</a></li>
-                            <li><a href="#">Refund Policy</a></li>
-                            <li><a href="#">Billing System</a></li>
-                            <li><a href="#">Ticket System</a></li>
+                            <li><a href="https://www.facebook.com/profile.php?id=100092278142626">Link Fanpage</a></li>
+                            <li><a href="https://ldp.page/62375f824d0f96001248a48a?fbclid=IwAR1PoppEORzUwayWIwHCXLHUlYFOt4kMmm34Kfbn5hlPMBMdbIGo8LGZtOQ">Website</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    <div class="single-widget">
-                        <h2>About Shopper</h2>
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#">Company Information</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Store Location</a></li>
-                            <li><a href="#">Affillate Program</a></li>
-                            <li><a href="#">Copyright</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <div class="single-widget">
-                        <h2>About Shopper</h2>
-                        <form action="#" class="searchform">
-                            <input type="text" placeholder="Your email address" />
-                            <button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-                            <p>Get the most recent updates from <br />our site and be updated your self...</p>
-                        </form>
-                    </div>
-                </div>
+
 
             </div>
         </div>
@@ -507,7 +510,7 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
-                <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
+                <p class="pull-left">Copyright © 2013 GIALINH-KIDS-SHOPPER Inc. All rights reserved.</p>
                 <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
             </div>
         </div>
@@ -518,6 +521,7 @@
 
 
 <script src="{{asset('public/frontend/js/jquery.js')}}"></script>
+<script src="{{asset('public/frontend/js/owl.carousel.js')}}"></script>
 <script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
 <script src="{{asset('public/frontend/js/price-range.js')}}"></script>
@@ -529,6 +533,40 @@
 <script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+{{--        <?php--}}
+{{--            $a = \Illuminate\Support\Facades\Session::get('number');--}}
+{{--            if(\Illuminate\Support\Facades\Session::get('number')>0)--}}
+{{--            {--}}
+{{--                ?>--}}
+{{--        <?php--}}
+
+{{--            }--}}
+{{--            else{--}}
+{{--                ?>--}}
+{{--        count_cart();--}}
+{{--        <?php--}}
+{{--            }--}}
+{{--            ?>--}}
+        count_cart();
+        function count_cart(){
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/count-cart')}}',
+                method:'GET',
+                success:function (data) {
+                   $('#count_cart').html(data);
+                   // window.location.reload();
+                }
+            })
+        }
+        function new_count_cart(){
+            $.ajax({
+                url:'{{\Illuminate\Support\Facades\URL::to('/new-count-cart')}}',
+                method:'GET',
+                success:function (data) {
+                    $('#count_cart').html(data);
+                }
+            })
+        }
         $('.add-to-cart').click(function () {
             var id = $(this).data('id');
             var cart_product_id = $('.cart_product_id_'+id).val();
@@ -549,6 +587,7 @@
                     data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price
                         ,cart_product_qty:cart_product_qty,cart_product_quantity:cart_product_quantity,_token:_token},
                     success:function (){
+                        new_count_cart();
                         swal({
                                 title: "Đã thêm sản phẩm vào giỏ hàng",
                                 text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
@@ -558,8 +597,14 @@
                                 confirmButtonText: "Đi đến giỏ hàng",
                                 closeOnConfirm: false
                             },
-                            function() {
+                            function(isConfirm) {
+                            if(isConfirm)
+                            {
                                 window.location.href = "{{url('/gio-hang')}}";
+                            }
+                            else{
+                                window.location.reload();
+                            }
                             });
 
                     }
@@ -675,39 +720,75 @@
                     $('#product_quickview_desc').html(data.product_desc);
                     $('#product_quickview_content').html(data.product_content);
                     $('#product_quickview_value').html(data.product_quickview_value);
+                    $(document).on('click','.add-to-cart-quickview',function () {
+                        var cart_product_id = $('.cart_product_id_'+product_id).val();
+                        var cart_product_name = $('.cart_product_name_'+product_id).val();
+                        var cart_product_image = $('.cart_product_image_'+product_id).val();
+                        var cart_product_quantity = $('.cart_product_quantity_'+product_id).val();
+                        var cart_product_price = $('.cart_product_price_'+product_id).val();
+                        var cart_product_qty = $('.cart_product_qty_'+product_id).val();
+                        var _token = $('input[name="_token"]').val();
+                        if(parseInt(cart_product_qty)>parseInt(cart_product_quantity))
+                        {
+                            alert("Hàng tồn kho không đủ , Vui lòng đặt lại");
+                        }
+                        else{
+                            $.ajax({
+                                url: '{{url('/add-cart-ajax')}}',
+                                method: 'POST',
+                                data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price
+                                    ,cart_product_qty:cart_product_qty,cart_product_quantity:cart_product_quantity,_token:_token},
+                                beforeSend:function () {
+                                    $('#before_send').html("<p class='text text-primary'>Đang thêm sản phẩm vào giỏ hàng</p>");
+                                },
+                                success:function (){
+
+                                    $('#before_send').html("<p class='text text-success'>Đã thêm sản phẩm vào giỏ hàng</p>");
+                                    $('#byquickview').attr('disabled',true);
+                                    new_count_cart();
+                                    window.location.reload();
+                                }
+                            })
+                        }
+
+                    })
+                    $(document).on('click','.add-to-cart-quicksee',function () {
+                        window.location.href = "http://localhost:8080/shopbanhang/chitietsanpham/"+product_id;
+                    })
                 }
             })
         })
-        $(document).on('click','.add-to-cart-quickview',function () {
-            var id = $(this).data('id');
-            var cart_product_id = $('.cart_product_id_'+id).val();
-            var cart_product_name = $('.cart_product_name_'+id).val();
-            var cart_product_image = $('.cart_product_image_'+id).val();
-            var cart_product_quantity = $('.cart_product_quantity_'+id).val();
-            var cart_product_price = $('.cart_product_price_'+id).val();
-            var cart_product_qty = $('.cart_product_qty_'+id).val();
-            var _token = $('input[name="_token"]').val();
-            if(parseInt(cart_product_qty)>parseInt(cart_product_quantity))
-            {
-                alert("Hàng tồn kho không đủ , Vui lòng đặt lại");
-            }
-            else{
-                $.ajax({
-                    url: '{{url('/add-cart-ajax')}}',
-                    method: 'POST',
-                    data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price
-                        ,cart_product_qty:cart_product_qty,cart_product_quantity:cart_product_quantity,_token:_token},
-                    beforeSend:function () {
-                        $('#before_send').html("<p class='text text-primary'>Đang thêm sản phẩm vào giỏ hàng</p>");
-                    },
-                    success:function (){
-                        $('#before_send').html("<p class='text text-success'>Đã thêm sản phẩm vào giỏ hàng</p>");
-                        $('#byquickview').attr('disabled',true);
-                    }
-                })
-            }
+        {{--$(document).on('click','.add-to-cart-quickview',function () {--}}
+        {{--    var id = $(this).data('id');--}}
+        {{--    var cart_product_id = $('.cart_product_id_'+id).val();--}}
+        {{--    var cart_product_name = $('.cart_product_name_'+id).val();--}}
+        {{--    var cart_product_image = $('.cart_product_image_'+id).val();--}}
+        {{--    var cart_product_quantity = $('.cart_product_quantity_'+id).val();--}}
+        {{--    var cart_product_price = $('.cart_product_price_'+id).val();--}}
+        {{--    var cart_product_qty = $('.cart_product_qty_'+id).val();--}}
+        {{--    var _token = $('input[name="_token"]').val();--}}
+        {{--    if(parseInt(cart_product_qty)>parseInt(cart_product_quantity))--}}
+        {{--    {--}}
+        {{--        alert("Hàng tồn kho không đủ , Vui lòng đặt lại");--}}
+        {{--    }--}}
+        {{--    else{--}}
+        {{--        $.ajax({--}}
+        {{--            url: '{{url('/add-cart-ajax')}}',--}}
+        {{--            method: 'POST',--}}
+        {{--            data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price--}}
+        {{--                ,cart_product_qty:cart_product_qty,cart_product_quantity:cart_product_quantity,_token:_token},--}}
+        {{--            beforeSend:function () {--}}
+        {{--                $('#before_send').html("<p class='text text-primary'>Đang thêm sản phẩm vào giỏ hàng</p>");--}}
+        {{--            },--}}
+        {{--            success:function (){--}}
+        {{--                $('#before_send').html("<p class='text text-success'>Đã thêm sản phẩm vào giỏ hàng</p>");--}}
+        {{--                $('#byquickview').attr('disabled',true);--}}
+        {{--            }--}}
+        {{--        })--}}
+        {{--    }--}}
 
-        })
+        {{--})--}}
+
         function load_comment() {
             var product_id = $('.comment_product_id').val();
             var _token = $('input[name="_token"]').val();
@@ -849,7 +930,28 @@
                 }
             }
         }
+        function view2() {
+            if(localStorage.getItem('data2')!=null)
+            {
+                var data = JSON.parse(localStorage.getItem('data2'));
+                data.reverse();
+                document.getElementById('row_wishlist2').style.overflow='scroll';
+                document.getElementById('row_wishlist2').style.height='600px';
+                for(var i=0;i<data.length;i++)
+                {
+                    var name = data[i].name;
+                    var id = data[i].id;
+                    var price = data[i].price;
+                    var image = data[i].image;
+                    var url = data[i].url;
+                    $('#row_wishlist2').append('<div class="row"><div class="col-md-4"><img width="100%" src="'+image+'"></div>' +
+                        '<div class="col-md-8"><p>'+name+'</p><p style="color: #FE980F">'+price+' VNĐ</p>' +
+                        '<a href="'+url+'">Đặt hàng</a><p><a data-id="'+id+'"class="btn btn-danger btn-xs delete_wishlist2" >Xóa đã xem</a></p></div>')
+                }
+            }
+        }
         view();
+        view2();
         $(document).on('click','.delete_wishlist',function(event){
             event.preventDefault(); // những hành động mặc định của sự kiện sẽ k xảy ra
             var id = $(this).data('id');
@@ -870,6 +972,25 @@
                 window.location.reload();
             }
         });
+        $(document).on('click','.delete_wishlist2',function(event){
+            event.preventDefault(); // những hành động mặc định của sự kiện sẽ k xảy ra
+            var id = $(this).data('id');
+            // console.log(localStorage.getItem('data'));
+            if (localStorage.getItem('data2') != null) {
+                var data = JSON.parse(localStorage.getItem('data2'));
+                if (data.length) {
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].id == id) {
+                            // alert(data[i].name);
+                            data.splice(i,1); //xóa phần tử khỏi mảng, tham số thứ 2 là 1 phần tử
+                        }
+                    }
+                }
+                localStorage.setItem('data2',JSON.stringify(data));  //chuyển obj->string
+                alert('Xóa sản phẩm đã xem thành công');
+                window.location.reload();
+            }
+        });
         $('#sort').on('change',function () {
             var url = $(this).val();
             if(url)
@@ -877,6 +998,21 @@
                 window.location=url;
             }
             return false;
+        })
+        $('.owl-carousel').owlCarousel({
+            loop:true,
+            nav:true,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:3
+                },
+                1000:{
+                    items:5
+                }
+            }
         })
     })
 </script>

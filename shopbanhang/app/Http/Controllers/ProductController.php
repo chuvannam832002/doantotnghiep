@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Gallery;
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Rating;
 use App\Models\Slider;
@@ -31,7 +32,7 @@ class ProductController extends Controller
         $meta_title = '';
         $url_canonical = '';
 //        $cate_product = DB::table('tbl_product')->orderBy('category_id','desc')->get();
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();
+        $cate_product = DB::table('tbl_category_product')->where('category_parent','!=','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
 //        $product = DB::table('tbl_product')->orderBy('brand_id','desc')->get();
         return view('admin.add_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
@@ -90,9 +91,14 @@ class ProductController extends Controller
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','desc')->get();
         $edit_product = DB::table('tbl_product')->where('product_id',$product_id)->get();
+        $edit_product2 = DB::table('tbl_product')->where('product_id',$product_id)->first();
+        $category_id = $edit_product2->category_id;
+        $brand_id = $edit_product2->brand_id;
+//        echo $category_id;
         $manage_product =  view('admin.edit_product')->with('edit_product',$edit_product)->with('cate_product',$cate_product)->with(
             'brand_product',$brand_product
-        );
+        )->with('category_id',$category_id)->with('brand_id',$brand_id);
+
         return view('admin_layout')->with('admin.edit_product',$manage_product);
     }
     public function update_product(Request $request,$product_id){
@@ -132,17 +138,20 @@ class ProductController extends Controller
             ->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')->where('tbl_product.product_id',$product_id)->get();
         $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
         $all_product = DB::table('tbl_product')->where('product_status','0')->orderBy('product_id','desc')->get();
-        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
+        $category_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         $category_cate='';
         $category_id='';
         $product_name = '';
+        $giatri=0;
+        $check = false;
         foreach ($detail_product as $key=>$values)
         {
             $category_id = $values->category_id;
             $category_cate = $values->category_name;
             $product_name = $values->product_name;
         }
+        $partner = Partner::orderby('icon_id','asc')->get();
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
         $category= \App\Models\CategoryProduct::where('category_id',$category_id)->get();
         $category_slug='';
@@ -161,11 +170,11 @@ class ProductController extends Controller
             ->whereNotIn('tbl_product.product_id',[$product_id])->get();
         $rating = Rating::where('product_id',$product_id)->avg('rating');
         $rating = round($rating);
-        return view('pages.sanpham.detail_product')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+        return view('pages.sanpham.detail_product')->with('cate_product',$category_product)->with('brand_product',$brand_product)
             ->with('product_details',$detail_product)->with('relate',$related_product)->with('meta_desc',$meta_desc)
             ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slide',$slider)
             ->with('cate_post',$cate_post)->with('category_product_pro',$category_product_pro)->with('all_product',$all_product)->with('category_name',$category_cate)
-            ->with('gallery',$gallery)->with('category_id',$category_slug)->with('rating',$rating);
+            ->with('gallery',$gallery)->with('category_id',$category_slug)->with('rating',$rating)->with('check',$check)->with('partner',$partner)->with('giatri',$giatri);
     }
     public function quick_view(Request $request){
         $product_id = $request->product_id;
@@ -180,7 +189,7 @@ class ProductController extends Controller
         $output['product_desc']=$product->product_desc;
         $output['product_content']=$product->product_content;
         $output['product_price']=number_format($product->product_price,0,',','.').'VNĐ';
-        $output['product_image']='<p><img width="100%" src="public/upload/product/'.$product->product_image.'"></p>';
+        $output['product_image']='<p><img width="100%" src="'.\url('public/upload/product').'/'.$product->product_image.'"></p>';
         $output['product_quickview_value'] = '
                         <input type="hidden" value="'.$product->product_id.'" class="cart_product_id_'.$product->product_id.'">
                         <input type="hidden" value="'.$product->product_name.'" class="cart_product_name_'.$product->product_id.'">
@@ -248,7 +257,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
         $output = '';
-        $product = Product::where('category_id',$data['cate_id'])->orderby('product_id','desc')->get();
+        $product = Product::where('category_id',$data['cate_id'])->orderby('product_id','desc')->paginate(8);
         $product_count = $product->count();
         if($product_count>0)
         {
@@ -257,14 +266,15 @@ class ProductController extends Controller
             foreach ($product as $key=> $val)
             {
                 $output.='
-                <div class="col-sm-3">
-                    <div class="product-image-wrapper">
+                <div class="col-sm-4">
+                    <div class="product-image-wrapper" style="width: 90%">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="'.\url('/public/upload/product/').'/'.$val->product_image.'" width="120" height="120" alt="" />
+                            <a href="'.\url('chitietsanpham').'/'.$val->product_id.'" class="btn btn-default add-to-cart">
+                                <img src="'.\url('/public/upload/product/').'/'.$val->product_image.'" style="width: 200px;height: 240px" alt="" />
                                 <h2>'.number_format($val->product_price,0,',','.').'VND</h2>
-                                <p>'.$val->product_name.'</p>
-                                <a href="'.\url('chitietsanpham').'/'.$val->product_id.'" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Xem chi tiết</a>
+                                <p style="font-size: 7px;width: 180px">'.$val->product_name.'</p>
+                                <i class="fa fa-shopping-cart"></i>Xem chi tiết</a>
                             </div>
 
                         </div>

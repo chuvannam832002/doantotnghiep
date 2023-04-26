@@ -25,16 +25,22 @@
                     <tr>
 
                         <th>Tên mã</th>
+                        <th>Tên phát mã</th>
+                        <th>Tên hết hạn</th>
                         <th>Mã giảm giá</th>
                         <th>Điều kiện giảm giá</th>
                         <th>Số lượng mã</th>
                         <th>Số giảm</th>
+                        <th>Tình trạng</th>
+                        <th>Hết hạn</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($coupon as $key =>$cate_pro)
                         <tr>
                             <td>{{$cate_pro->coupon_name}}</td>
+                            <td>{{$cate_pro->coupon_date_start}}</td>
+                            <td>{{$cate_pro->coupon_date_end}}</td>
                             <td>{{$cate_pro->coupon_code}}</td>
                             <td>{{$cate_pro->coupon_time}}</td>
                             <td><span class="text-ellipsis">
@@ -67,6 +73,41 @@
                                     }
                                         ?>
                             </span></td>
+                            <td><span class="text-ellipsis">
+                                <?php
+                                    if($cate_pro->coupon_status==0)
+                                    {
+                                        ?>
+                                    <p style="color: green">
+                                        Đang hoạt động
+
+                                    </p>
+
+                                <?php
+                                    }
+                                    else{
+                                        ?>
+                                      <p style="color: red">
+                                       Đã hết hạn
+                                      </p>
+                                <?php
+                                    }
+                                        ?>
+                            </span></td>
+                            <td>
+                                @php
+                                $now = \Illuminate\Support\Facades\Session::get('today');
+                                @endphp
+                                @if($cate_pro->coupon_date_end<$now)
+                                    <p style="color: red">
+                                     Hết hạn
+                                    </p>
+                                @else
+                                    <p style="color: green">
+                                        Còn hạn
+                                    </p>
+                                @endif
+                            </td>
                             <td>
 
                                 <a onclick="return confirm('Are you sure to delete this row?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-coupon/').'/'.$cate_pro->coupon_id}}" style="font-size: 20px" class="active" ui-toggle-class="">

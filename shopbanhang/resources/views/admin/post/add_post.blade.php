@@ -64,7 +64,7 @@
                                 <option value="0">Hiển thị</option>
                             </select>
                         </div>
-                        <button type="submit" name="add_brand_product" class="btn btn-info">Thêm danh mục</button>
+                        <button type="submit" name="add_brand_product" class="btn btn-info">Thêm bài viết</button>
                     </form>
                 </div>
 

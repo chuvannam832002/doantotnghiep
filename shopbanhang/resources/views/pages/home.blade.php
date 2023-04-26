@@ -33,8 +33,8 @@
                         <input type="hidden"  class="cart_product_quantity_{{$pro->product_id}}" value="{{$pro->product_quantity}}" />
                         <input type="hidden" value="{{$pro->product_price}}" class="cart_product_price_{{$pro->product_id}}">
                         <input type="hidden" value="1" class="cart_product_qty_{{$pro->product_id}}">
-                        <a id="cart_product_url_{{$pro->product_id}}" href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
-                    <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" width="200" height="260" alt="" />
+                        <a id="{{$pro->product_id}}" onclick="add_wistlistview(this.id);" href="{{\Illuminate\Support\Facades\URL::to('/chitietsanpham/').'/'.$pro->product_id}}">
+                    <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product').'/'.$pro->product_image}}" style="width: 260px;height: 270px" alt="" />
                     <h2>{{number_format($pro->product_price).'VNĐ'}}</h2>
                     <p>{{$pro->product_name}}</p>
                     </a>
@@ -75,7 +75,7 @@
                                 Yêu thích
                             </span>
                         </button></li>
-                    <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
+{{--                    <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>--}}
                 </ul>
             </div>
         </div>
@@ -85,7 +85,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title product_quickview_title" id="">
-                            <span id="product_quickview_title"></span>
+                            <span id="product_quickview_title" style="font-size: 30px;color: brown"></span>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -139,8 +139,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary">Đi tới sản phẩm</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary  add-to-cart-quicksee" id="{{$pro->product_id}}">Đi tới sản phẩm</button>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,38 @@
 
 </div><!--features_items-->
 <script type="text/javascript">
+    function add_wistlistview(clicked_id) {
+        var id = clicked_id;
+        var name = $('.cart_product_name_'+id).val();
+        var image = $('.product_image_'+id).val();
+        var url = $('.product_url_'+id).val();
+        var price = $('.cart_product_price_'+id).val();
+        var  newItem = {
+            'url':url,
+            'name':name,
+            'price':price,
+            'id':id,
+            'image':image,
+        }
+        if(localStorage.getItem('data2')==null)
+        {
+            localStorage.setItem('data2','[]');
+        }
+        var olddata = JSON.parse(localStorage.getItem('data2'));
+        var matches = $.grep(olddata,function (obj) {
+            return obj.id == id;
+        })
+        if(matches.length)
+        {
+            swal("Thông báo", "Sản phẩm bạn đã yêu thích , không thể thêm", "error");
+        }
+        else{
+            olddata.push(newItem);
+            localStorage.setItem('data2',JSON.stringify(olddata));
+            window.location.reload();
+        }
 
+    }
     function add_wistlist(clicked_id) {
         var id = clicked_id;
         var name = $('.cart_product_name_'+id).val();
@@ -184,6 +215,11 @@
         }
 
     }
+    // $(document).on('click','.add-to-cart-quicksee',function () {
+    //     var id = $(this).data('id');
+    //     // window.location.href='http://localhost:8080/shopbanhang/chitietsanpham/'+id;
+    //     alert(id)
+    // })
 
 
 </script>

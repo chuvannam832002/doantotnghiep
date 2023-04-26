@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
-                        <input type="file"  name="product_image" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
+                        <input type="file" required name="product_image" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
                         <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').'/'.$pro->product_image}}" height="150" width="150">
                     </div>
                     <div class="form-group">
@@ -51,7 +51,7 @@
                         <label for="exampleInputFile">Danh mục sản phẩm</label>
                         <select name="product_category" class="form-control input-lg m-bot15">
                             @foreach($cate_product as $key =>$cate_pro)
-                                <option value="{{$cate_pro->category_id}}">{{$cate_pro->category_name}}</option>
+                                <option {{$category_id==$cate_pro->category_id? 'selected' : ''}} value="{{$cate_pro->category_id}}">{{$cate_pro->category_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -59,15 +59,21 @@
                         <label for="exampleInputFile">Thương hiệu sản phẩm</label>
                         <select name="product_brand" class="form-control input-lg m-bot15">
                             @foreach($brand_product as $key =>$cate_pro)
-                                <option value="{{$cate_pro->brand_id}}">{{$cate_pro->brand_name}}</option>
+                                <option {{$brand_id==$cate_pro->brand_id? 'selected' : ''}} value="{{$cate_pro->brand_id}}">{{$cate_pro->brand_name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">Thương hiệu sản phẩm</label>
                         <select name="product_status" class="form-control input-lg m-bot15">
-                            <option value="2">Ẩn</option>
-                            <option value="1">Hiển thị</option>
+                            @if($pro->product_status==0)
+                                <option value="1">Ẩn</option>
+                                <option selected value="0">Hiển thị</option>
+                            @else
+                                <option selected value="1">Ẩn</option>
+                                <option value="0">Hiển thị</option>
+                            @endif
+
                         </select>
                     </div>
                     <button type="submit" name="add_product" class="btn btn-info">Cập nhật sản phẩm</button>

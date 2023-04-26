@@ -8,7 +8,7 @@
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
-                                <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').'/'.$pro->product_image}}" width="200" height="260" alt="" />
+                                <img src="{{\Illuminate\Support\Facades\URL::to('/public/upload/product/').'/'.$pro->product_image}}" style="width: 260px;height: 270px" alt="" />
                                 <h2>{{number_format($pro->product_price).'VNĐ'}}</h2>
                                 <p>{{$pro->product_name}}</p>
                                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>

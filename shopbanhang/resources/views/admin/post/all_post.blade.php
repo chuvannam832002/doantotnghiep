@@ -55,9 +55,9 @@
                             @endif
                         </td>
                         <td>
-{{--                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-post/').'/'.$cate_pro->post_id}}" style="font-size: 20px" class="active" ui-toggle-class="">--}}
-{{--                                <i class="fa fa-pencil-square-o text-success text-active"></i>--}}
-{{--                            </a>--}}
+                            <a href="{{\Illuminate\Support\Facades\URL::to('/edit-post/').'/'.$cate_pro->post_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
+                                <i class="fa fa-pencil-square-o text-success text-active"></i>
+                            </a>
                             <a onclick="return confirm('Are you sure to delete this writting?')" href="{{\Illuminate\Support\Facades\URL::to('/delete-post/').'/'.$cate_pro->post_id}}" style="font-size: 20px" class="active" ui-toggle-class="">
                                 <i class="fa fa-times text-danger text"></i></a>
                         </td>

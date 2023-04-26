@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Brand;
+use App\Models\Partner;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -78,14 +80,45 @@ class BrandProduct extends Controller
         $meta_keywords = '';
         $meta_title = '';
         $url_canonical = '';
-        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
+        $giatri = 1;
+        $check = false;
+        $partner = Partner::orderby('icon_id','asc')->get();
+        $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
+        $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $category_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
-        $brand_by_id = DB::table('tbl_product')->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
-            ->where('tbl_product.brand_id',$brand_id)->get();
         $cate_name = DB::table('tbl_brand_product')->where('tbl_brand_product.brand_id',$brand_id)->limit(1)->get();
-        return view('pages.brand.show_brand')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('category_by_id',$brand_by_id)
+        if(isset($_GET['pages']))
+        {
+            $giatri = $_GET['pages'];
+            $brand_by_id = DB::table('tbl_product')->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
+                ->where('tbl_product.brand_id',$brand_id)->get();
+            $number = round(($brand_by_id->count())/10);
+            Session::put('page_number',$number);
+            if($giatri>1)
+            {
+                $giatri+=3;
+                $brand_by_id = DB::table('tbl_product')->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
+                    ->where('tbl_product.brand_id',$brand_id)->where('product_id','>=',$giatri*10+1)
+                    ->where('product_id','<',($giatri+1)*10)->get();
+            }
+            else{
+
+                $brand_by_id = DB::table('tbl_product')->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
+                    ->where('tbl_product.brand_id',$brand_id)->where('product_status','0')->where('product_id','>=',39)
+                    ->where('product_id','<',50)->get();
+            }
+        }
+        else{
+            $brand_by_id = DB::table('tbl_product')->join('tbl_brand_product','tbl_brand_product.brand_id','=','tbl_product.brand_id')
+                ->where('tbl_product.brand_id',$brand_id)->paginate(10);
+        }
+        return view('pages.brand.show_brand')->with('cate_product',$category_product)->with('brand_product',$brand_product)->with('category_by_id',$brand_by_id)
             ->with('cate_name',$cate_name)
-            ->with('cate_name',$cate_name)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+            ->with('cate_name',$cate_name)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+            ->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)  ->with('slide',$slider)   ->with('check',$check)->with('partner',$partner)
+            ->with('giatri',$giatri);
 
     }
 }

@@ -42,7 +42,8 @@ class OrderController extends Controller
        }
         $customer = Customer::where('customer_id',$customer_id)->first();
         $shipping = Shipping::where('shipping_id',$shipping_id)->first();
-        return view('admin.view_order')->with(compact('order_detail','customer','shipping','order_detail_new','coupon_condition','coupon_number','order','order_status'));
+        return view('admin.view_order')->
+        with(compact('order_detail','customer','shipping','order_detail_new','coupon_condition','coupon_number','order','order_status'));
     }
     public function update_order_qty(Request $request){
         $data = $request->all();

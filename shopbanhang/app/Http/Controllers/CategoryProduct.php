@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class CategoryProduct extends Controller
     }
     public function add_category_product(){
         $this->AuthLogin();
-        $category_product = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $category_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         return view('admin.add_category_product')->with(compact('category_product'));
     }
     public function all_category_product(){
@@ -83,11 +84,13 @@ class CategoryProduct extends Controller
         $meta_desc = '';
         $meta_keywords = '';
         $meta_title = '';
+        $giatri =0;
         $url_canonical = '';
         $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
         $category_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         $category_by_id2=null;
+        $check = true;
         if(isset($_GET['sort_by']))
         {
             $sort_by = $_GET['sort_by'];
@@ -134,10 +137,26 @@ class CategoryProduct extends Controller
         }
         $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $partner = Partner::orderby('icon_id','asc')->get();
+        $all_product = DB::table('tbl_product')->where('product_status','0')->orderBy('product_id','desc')->get();
+        $number = round(($all_product->count())/10);
+        Session::put('page_number',$number);
+//        if($giatri>1)
+//        {
+//            $giatri+=3;
+//            echo $giatri;
+//            $all_product = DB::table('tbl_product')->where('product_status','0')->where('product_id','>=',$giatri*10+1)
+//                ->where('product_id','<',($giatri+1)*10)->orderBy('product_id','desc')->get();
+//        }
+//        else{
+//            $all_product = DB::table('tbl_product')->where('product_status','0')->where('product_id','>=',39)
+//                ->where('product_id','<',50)->orderBy('product_id','desc')->get();
+//        }
             $cate_name = DB::table('tbl_category_product')->where('tbl_category_product.slug_category_product',$category_id)->limit(1)->get();
         return view('pages.category.show_category')->with('cate_product',$category_product)->with('brand_product',$brand_product)->with('category_by_id',$category_by_id2)
             ->with('cate_name',$cate_name)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)->with('category_by_id2',$category_by_id2);
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)->with('category_by_id2',$category_by_id2)
+            ->with('check',$check)->with('partner',$partner)->with('giatri',$giatri);
     }
     //import data
 //    public function export_csv(){

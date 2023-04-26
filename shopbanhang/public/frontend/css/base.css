@@ -2635,7 +2635,7 @@ input[type="button"].btn-block {
 .nav-tabs > li.active > a:focus {
     color: #555555;
     background-color: #ffffff;
-    border: 1px solid #dddddd;
+    border: 0px solid #dddddd;
     border-bottom-color: transparent;
     cursor: default;
 }

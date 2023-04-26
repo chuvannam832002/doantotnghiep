@@ -8,7 +8,15 @@
                     <li class="active">Thanh toán giỏ hàng</li>
                 </ol>
             </div><!--/breadcrums-->
-
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{session()->get('message')}}
+                </div>
+            @elseif(session()->has('error'))
+                <div class="alert alert-danger">
+                    {{session()->get('error')}}
+                </div>
+            @endif
             <div class="register-req">
                 <p>Làm ơn đăng ký hoặc đăng nhập để thanh toán giỏ hàng và xem lại đơn hàng</p>
             </div><!--/register-req-->
@@ -44,39 +52,42 @@
                                         </select>
                                         <input type="button" value="Xác nhận đơn hàng" name="send_order" class="btn btn-primary btn-sm send_order">
                                 </form>
-                                <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/insert-coupon-code')}}" method="post">
-                                    {{csrf_field()}}
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Chọn thành phố</label>
-                                        <select name="city" id="city" class="form-control input-lg m-bot15 choose city">
-                                            <option value="0">----Chọn tỉnh thành phố----</option>
-                                            @foreach($city as $key=>$ci)
-                                                <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
-                                            @endforeach
-                                        </select>
-                                        </textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Chọn quận huyện</label>
-                                        <select name="province" id="province" class="form-control input-lg m-bot15 choose province">
-                                            <option value="0">----Chọn quận huyện----</option>
 
-                                        </select>
-                                        </textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Chọn xã phường</label>
-                                        <select name="wards" id="wards" class="form-control input-lg m-bot15 wards">
-                                            <option value="0">----Chọn xã phường----</option>
-
-                                        </select>
-                                        </textarea>
-                                    </div>
-
-                                </form>
-                                <input type="button" value="Tính phí vận chuyển " name="calculator_order" class="btn btn-primary btn-sm calculator_delivory">
                             </div>
                         </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <form role="form" action="{{\Illuminate\Support\Facades\URL::to('/insert-coupon-code')}}" method="post">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Chọn thành phố</label>
+                                <select name="city" id="city" class="form-control input-lg m-bot15 choose city">
+                                    <option value="0">----Chọn tỉnh thành phố----</option>
+                                    @foreach($city as $key=>$ci)
+                                        <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
+                                    @endforeach
+                                </select>
+                                </textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Chọn quận huyện</label>
+                                <select name="province" id="province" class="form-control input-lg m-bot15 choose province">
+                                    <option value="0">----Chọn quận huyện----</option>
+
+                                </select>
+                                </textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Chọn xã phường</label>
+                                <select name="wards" id="wards" class="form-control input-lg m-bot15 wards">
+                                    <option value="0">----Chọn xã phường----</option>
+
+                                </select>
+                                </textarea>
+                            </div>
+
+                        </form>
+                        <input type="button" width="100%" value="Tính phí vận chuyển " name="calculator_order" class="btn btn-primary btn-sm calculator_delivory">
                     </div>
                     <div class="col-sm-12 clearfix">
                         <div class="table-responsive cart_info">
@@ -219,6 +230,8 @@
                                                 đ</li>
                                         </td>
                                     </tr>
+                                    </form>
+
                                     <tr>
                                         <td colspan="5">
                                             <form method="post" action="{{\Illuminate\Support\Facades\URL::to('/check-coupon')}}">
@@ -228,7 +241,6 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    </form>
 
                                 @else
                                     <tr>

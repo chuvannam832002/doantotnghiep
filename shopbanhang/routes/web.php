@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/trang-chu', 'App\Http\Controllers\HomeController@index');
 Route::post('/tim-kiem', 'App\Http\Controllers\HomeController@search');
+Route::get('/count-cart', 'App\Http\Controllers\HomeController@count_cart');
+Route::get('/new-count-cart', 'App\Http\Controllers\HomeController@new_count_cart');
 Route::get('/lien-he', 'App\Http\Controllers\ContactController@lien_he');
 //Danh muc san pham trang chu
 Route::get('/danhmucsanpham/{category_id}', 'App\Http\Controllers\CategoryProduct@show_category_home');
@@ -136,6 +138,15 @@ Route::get('/add-post', 'App\Http\Controllers\Post@add_post');
 Route::post('/save-post', 'App\Http\Controllers\Post@save_post');
 Route::get('/all-post', 'App\Http\Controllers\Post@all_post');
 Route::get('/delete-post/{post_id}', 'App\Http\Controllers\Post@delete_post');
+Route::get('/edit-post/{post_id}', 'App\Http\Controllers\Post@edit_post');
+Route::post('/update-post/{post_id}', 'App\Http\Controllers\Post@update_post');
+//partner
+Route::get('/add-partner', 'App\Http\Controllers\PartnerController@add_partner');
+Route::get('/all-partner', 'App\Http\Controllers\PartnerController@all_partner');
+Route::post('/save-partner', 'App\Http\Controllers\PartnerController@save_partner');
+Route::get('/edit-partner/{icon_id}', 'App\Http\Controllers\PartnerController@edit_partner');
+Route::post('/update-partner/{icon_id}', 'App\Http\Controllers\PartnerController@update_partner');
+Route::get('/delete-partner/{icon_id}', 'App\Http\Controllers\PartnerController@delete_partner');
 //gallery
 Route::get('/add-gallery/{product_id}', 'App\Http\Controllers\GalleryController@add_gallery');
 Route::post('/select-gallery', 'App\Http\Controllers\GalleryController@select_gallery');
@@ -143,3 +154,9 @@ Route::post('/insert-gallery/{pro_id}', 'App\Http\Controllers\GalleryController@
 Route::post('/update-gallery-name', 'App\Http\Controllers\GalleryController@update_gallery_name');
 Route::post('/update-gallery', 'App\Http\Controllers\GalleryController@update_gallery');
 Route::post('/delete-gallery', 'App\Http\Controllers\GalleryController@delete_gallery');
+//quenmatkhau
+Route::get('/forget-pass', 'App\Http\Controllers\CheckoutController@forget_pass');
+Route::post('/recover-pass', 'App\Http\Controllers\CheckoutController@recover_pass');
+//lichsu
+Route::get('/history', 'App\Http\Controllers\HomeController@history');
+Route::get('/view-history-order/{ordercode}', 'App\Http\Controllers\HomeController@view_history_order');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Coupon;
 use App\Models\Feeship;
 use App\Models\Order;
 use App\Models\OrderDetails;
@@ -10,6 +11,7 @@ use App\Models\Province;
 use App\Models\Shipping;
 use App\Models\Wards;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class DeliveryController extends Controller
@@ -183,6 +185,14 @@ $fee_ship->save();
                 $order_details->save();
             }
         }
+        $coupon = Coupon::where('coupon_code',$data['order_coupon'])->get();
+        foreach ($coupon as $value)
+        {
+            $newcoupon = Coupon::find($value->coupon_id);
+            $newcoupon->coupon_used = 1;
+            $newcoupon->save();
+        }
+
         Session::forget('newcart');
         Session::forget('coupon');
         Session::forget('fee');

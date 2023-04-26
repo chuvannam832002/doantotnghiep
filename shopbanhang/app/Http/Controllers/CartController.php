@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partner;
 use App\Models\Slider;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -97,11 +98,15 @@ class CartController extends Controller
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
         $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
         $url_canonical = $request->url();
+        $check = false;
+        $giatri =0;
+        $partner = Partner::orderby('icon_id','asc')->get();
         $cate_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         return view('pages.cart.cart_ajax')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
             ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post) ->with('check',$check)
+            ->with('partner',$partner)->with('giatri',$giatri);
     }
     public function delete_sp($session_id){
         $cart = Session::get('newcart');
@@ -144,6 +149,8 @@ class CartController extends Controller
         {
             Session::forget('newcart');
             Session::forget('coupon');
+//            Session::forget('number');
+            Session::put('number','0');
             return redirect()->back()->with('message','Xóa tất cả sản phẩm thành công');
         }
         else{

@@ -12,7 +12,7 @@
                                 <p>{{$post->post_content}}</p>
                             </div>
                             <div class="text-center" style="margin: 10px 0;padding: 2px">
-                                <p><img src="{{\Illuminate\Support\Facades\URL::to('public/upload/product').'/'.$post->post_image}}" width="500" height="200"> </p>
+                                <p style="margin-left: 200px;"><img src="{{\Illuminate\Support\Facades\URL::to('public/upload/product').'/'.$post->post_image}}" width="500" height="200"> </p>
                             </div>
                             <div class="text-left" style="margin: 10px 0;padding: 2px">
                                 <p>{{$post->post_meta_desc}}</p>

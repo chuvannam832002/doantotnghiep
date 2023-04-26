@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Customer;
+use App\Models\Partner;
 use App\Models\Slider;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -16,7 +18,9 @@ class CheckoutController extends Controller
         $meta_desc = '';
         $meta_keywords = '';
         $meta_title = '';
+        $check = false;   $giatri = 0;
         $url_canonical = '';
+        $partner = Partner::orderby('icon_id','asc')->get();
         $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
         $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
@@ -24,7 +28,8 @@ class CheckoutController extends Controller
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
         return view('pages.checkout.login_checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('meta_desc',$meta_desc)
             ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)
+            ->with('check',$check) ->with('partner',$partner)->with('giatri',$giatri);
     }
     public function add_customer(Request $request){
         $data = array();
@@ -40,21 +45,24 @@ class CheckoutController extends Controller
     public function checkout(){
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
         $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
-        $check = Session::get('customer_id');
+        $checkid = Session::get('customer_id');
         $meta_desc = '';
         $meta_keywords = '';
         $meta_title = '';
         $url_canonical = '';
+        $partner = Partner::orderby('icon_id','asc')->get();
+        $check = false;
         $city = City::orderby('matp','asc')->get();
         $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
         $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
         $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
         $cate_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
-        if($check)
+        if($checkid)
         {
             return view('pages.checkout.checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
                 ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
-                ->with('city',$city)->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post);
+                ->with('city',$city)->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)
+                ->with('check',$check) ->with('partner',$partner);
         }
         else{
             return Redirect('/login-checkout');
@@ -91,14 +99,13 @@ class CheckoutController extends Controller
         $email = $request->email_account;
         $password = md5($request->password_account);
         $result = DB::table('tbl_customers')->where('customer_email',$email)->where('customer_password',$password)->first();
-        if ($result)
+        if ($result!=null)
         {
             Session::put('customer_id',$result->customer_id);
             return Redirect('/checkout');
         }
         else{
             return Redirect('/login-checkout');
-
         }
 
     }
@@ -167,5 +174,51 @@ class CheckoutController extends Controller
         DB::table('tbl_order')->where('order_id',$orderId)->delete();
         Session::put('message','Xóa đơn hàng thành công');
         return \redirect()->back();
+    }
+    public function forget_pass(){
+        $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderBy('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
+        $check = Session::get('customer_id');
+        $meta_desc = '';
+        $meta_keywords = '';
+        $meta_title = '';   $giatri = 0;
+        $url_canonical = '';
+        $check = false;
+        $city = City::orderby('matp','asc')->get();
+        $partner = Partner::orderby('icon_id','asc')->get();
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
+        $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
+        $cate_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
+
+            return view('pages.checkout.forgetpassword')->with('cate_product',$cate_product)->with('brand_product',$brand_product)
+                ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+                ->with('city',$city)->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)
+                ->with('check',$check) ->with('partner',$partner)->with('giatri',$giatri);
+    }
+    public function recover_pass(Request $request)
+    {
+        $data = $request->all();
+        $customer = $data['email_account'];
+        $cus = Customer::where('customer_email',$customer)->first();
+//        echo $cus;
+        $newcustomer = Customer::find($cus->customer_id);
+        $newcustomer->customer_password = md5('123456');
+        $newcustomer->save();
+        $meta_desc = '';
+        $meta_keywords = '';   $giatri = 0;
+        $meta_title = '';
+        $check = false;       $partner = Partner::orderby('icon_id','asc')->get();
+        $url_canonical = '';
+        $cate_post = \App\Models\CategoryPost::orderby('cate_post_id','desc')->get();
+        $category_product_pro = \App\Models\CategoryProduct::orderby('category_id','desc')->get();
+        $slider = Slider::orderby('slider_id','desc')->where('slider_status','0')->take(4)->get();
+        $cate_product = \App\Models\CategoryProduct::where('category_parent',0)->orderby('category_id','desc')->get();
+        $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderBy('brand_id','desc')->get();
+        Session::put('message','Mật khẩu mới của bạn là 123456');
+        return view('pages.checkout.login_checkout')->with('cate_product',$cate_product)->with('brand_product',$brand_product)->with('meta_desc',$meta_desc)
+            ->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+            ->with('slide',$slider)->with('category_product_pro',$category_product_pro)->with('cate_post',$cate_post)
+            ->with('check',$check) ->with('partner',$partner)->with('giatri',$giatri);
     }
 }
